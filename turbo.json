@@ -13,6 +13,9 @@
 		},
 		"lint:fix": {
 			"cache": false
+		},
+		"publish-package": {
+			"cache": false
 		}
 	},
 	"ui": "stream"

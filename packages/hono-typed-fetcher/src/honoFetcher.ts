@@ -29,8 +29,6 @@ export type JsonResponse<T> = Omit<Response, "json"> & {
 	json: () => Promise<T>;
 };
 
-type RequestInitWithCf = RequestInit<CfProperties<unknown>>;
-
 type HasPathParams<T extends string> = T extends `${string}:${string}`
 	? true
 	: false;
@@ -39,15 +37,11 @@ type FetcherParams<SchemaPath extends string> =
 	HasPathParams<SchemaPath> extends true
 		? {
 				params: ParsePathParams<SchemaPath>;
-				init?: Omit<RequestInitWithCf, "headers"> & {
-					headers?: Record<string, string>;
-				};
+				init?: RequestInit;
 			}
 		: {
 				params?: never;
-				init?: Omit<RequestInitWithCf, "headers"> & {
-					headers?: Record<string, string>;
-				};
+				init?: RequestInit;
 			};
 
 // biome-ignore lint/complexity/noBannedTypes: We need an empty object to remove the body and form keys from the request object
@@ -110,9 +104,7 @@ export type BaseTypedHonoFetcher<T extends Hono> = {
 const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 	fetcher: (
 		request: string,
-		init?: Omit<RequestInit, "headers"> & {
-			headers?: Record<string, string>;
-		},
+		init?: RequestInit,
 	) => ReturnType<T["request"]> | Promise<ReturnType<T["request"]>>,
 	method: M,
 ): TypedMethodFetcher<T, M> => {
@@ -145,18 +137,17 @@ const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 			body = JSON.stringify(requestAsOptionalFormBody.body);
 		}
 
+		const newHeaders = new Headers(init.headers);
+
+		if (body && !requestAsOptionalFormBody.form) {
+			newHeaders.set("Content-Type", "application/json");
+		}
+
 		try {
 			return await fetcher(finalUrl, {
 				method: method.toUpperCase(),
 				body: body ? (body as BodyInit) : undefined,
-				headers: {
-					...(body && !requestAsOptionalFormBody.form
-						? {
-								"Content-Type": "application/json",
-							}
-						: {}),
-					...init.headers,
-				},
+				headers: newHeaders,
 				...init,
 			});
 		} catch (error) {
@@ -171,9 +162,7 @@ export type TypedHonoFetcher<T extends Hono> = BaseTypedHonoFetcher<T>;
 export const honoFetcher = <T extends Hono>(
 	fetcher: (
 		request: string,
-		init?: Omit<RequestInit, "headers"> & {
-			headers?: Record<string, string>;
-		},
+		init?: RequestInit,
 	) => ReturnType<T["request"]> | Promise<ReturnType<T["request"]>>,
 ): TypedHonoFetcher<T> => {
 	const methods = ["get", "post", "put", "delete", "patch"] as const;

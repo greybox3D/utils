@@ -1,5 +1,11 @@
 # @greybox/hono-typed-fetcher
 
+## 1.1.0
+
+### Minor Changes
+
+- Relax expected init types
+
 ## 1.0.2
 
 ### Patch Changes
