@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 1.1.3
+
+### Patch Changes
+
+- Use directory for repository
+
 ## 1.1.2
 
 ### Patch Changes
