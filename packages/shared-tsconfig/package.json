@@ -1,15 +1,16 @@
 {
 	"name": "@greybox/shared-tsconfig",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
 		"directory": "packages/shared-tsconfig"
 	},
-	"files": [
-		"tsconfig.json"
-	],
+	"files": ["tsconfig.json"],
 	"devDependencies": {
 		"@changesets/cli": "^2.27.9"
+	},
+	"scripts": {
+		"publish-package": "bun publish"
 	}
 }

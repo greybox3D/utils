@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/hono-typed-fetcher",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
@@ -11,7 +11,8 @@
 		"test": "bunx vitest --run",
 		"test:watch": "bunx vitest",
 		"lint": "biome check .",
-		"lint:fix": "biome check --write ."
+		"lint:fix": "biome check --write .",
+		"publish-package": "bun publish"
 	},
 	"dependencies": {
 		"@hono/zod-validator": "^0.4.1",
@@ -51,7 +52,5 @@
 			"types": "./src/honoKyFetcher.ts"
 		}
 	},
-	"files": [
-		"src"
-	]
+	"files": ["src"]
 }

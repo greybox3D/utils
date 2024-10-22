@@ -1,5 +1,11 @@
 # @greybox/hono-typed-fetcher
 
+## 1.0.2
+
+### Patch Changes
+
+- Try individual publish
+
 ## 1.0.1
 
 ### Patch Changes

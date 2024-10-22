@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 1.1.4
+
+### Patch Changes
+
+- Try individual publish
+
 ## 1.1.3
 
 ### Patch Changes
