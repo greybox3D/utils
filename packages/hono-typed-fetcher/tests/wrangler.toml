@@ -1,0 +1,23 @@
+name = "test-worker"
+main = "./worker.ts"
+workers_dev = true
+compatibility_date = "2024-09-23"
+compatibility_flags = [ "nodejs_compat" ]
+
+[durable_objects]
+bindings = [
+  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker" }
+]
+
+[env.dev]
+workers_dev = true
+
+[env.dev.durable_objects]
+bindings = [
+  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-dev", environment="dev" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["TestDurableObject"]
+

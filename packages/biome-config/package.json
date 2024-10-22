@@ -1,0 +1,11 @@
+{
+	"name": "@greybox/biome-config",
+	"private": false,
+	"repository": {
+		"url": "git@github.com:greybox3D/utils.git"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@changesets/cli": "^2.27.9"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"name": "@greybox/utils",
+	"version": "1.0.0",
+	"private": true,
+	"description": "A collection of utility functions by Greybox.",
+	"workspaces": ["packages/*"],
+	"scripts": {
+		"test": "turbo test",
+		"test:watch": "turbo test:watch --ui tui",
+		"lint": "turbo lint",
+		"lint:fix": "turbo lint:fix"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"turbo": "^2.2.3"
+	},
+	"packageManager": "bun@1.1.32",
+	"trustedDependencies": ["@biomejs/biome"]
+}
