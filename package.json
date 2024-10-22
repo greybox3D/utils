@@ -1,14 +1,18 @@
 {
 	"name": "@greybox/utils",
-	"version": "1.0.0",
 	"private": true,
+	"version": "0.0.0",
 	"description": "A collection of utility functions by Greybox.",
+	"repository": {
+		"url": "git@github.com:greybox3D/utils.git"
+	},
 	"workspaces": ["packages/*"],
 	"scripts": {
 		"test": "turbo test",
 		"test:watch": "turbo test:watch --ui tui",
 		"lint": "turbo lint",
-		"lint:fix": "turbo lint:fix"
+		"lint:fix": "turbo lint:fix",
+		"upgrade-deps": "bunx taze -Ir"
 	},
 	"keywords": [],
 	"author": "",
