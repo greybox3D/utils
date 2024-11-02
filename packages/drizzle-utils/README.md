@@ -29,7 +29,7 @@ bun add @greybox/drizzle-utils
 Uses PostgreSQL's VALUES clause for optimal performance:
 
 ```typescript
-import { batchUpdate } from '@greybox/drizzle-utils';
+import { batchUpdate } from '@greybox/drizzle-utils/batchUpdate';
 import { pgTable, integer, text } from 'drizzle-orm/pg-core';
 
 const users = pgTable('users', {

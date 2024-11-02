@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@greybox/drizzle-utils",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"private": false,
 	"license": "MIT",
 	"repository": {
@@ -30,9 +30,9 @@
 		"vitest": "^2.1.4"
 	},
 	"exports": {
-		"./batchUpdates": {
-			"import": "./src/batchUpdates.ts",
-			"types": "./src/batchUpdates.ts"
+		"./batchUpdate": {
+			"import": "./src/batchUpdate.ts",
+			"types": "./src/batchUpdate.ts"
 		},
 		"./transactionUpdate": {
 			"import": "./src/transactionUpdate.ts",
