@@ -1,5 +1,11 @@
 # @greybox/biome-config
 
+## 1.1.2
+
+### Patch Changes
+
+- Fix publish configs
+
 ## 1.1.1
 
 ### Patch Changes

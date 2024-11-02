@@ -1,5 +1,11 @@
 # @greybox/hono-typed-fetcher
 
+## 1.2.2
+
+### Patch Changes
+
+- Fix publish configs
+
 ## 1.2.1
 
 ### Patch Changes
