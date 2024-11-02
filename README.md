@@ -72,11 +72,44 @@ To learn more about the technologies used in this project, check out the followi
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Publishing
-- do changes
-- run bun changeset per commit
-- run bun changeset version
-- run bun publish-package
 
+### Prerequisites
+
+1. Create an NPM account if you don't have one
+2. Generate an NPM access token:
+   - Go to npmjs.com → Your profile → Access Tokens
+   - Create a new token with "Automation" type
+3. Create a `.env` file in the root directory and add your NPM token:
+   ```
+   NPM_CONFIG_TOKEN=your-npm-token-here
+   ```
+
+### Publishing Process
+
+1. Make your changes to the codebase
+2. For each meaningful change, create a changeset:
+   ```bash
+   bun changeset
+   ```
+   - Select the packages that were modified
+   - Choose the appropriate version bump (major/minor/patch)
+   - Provide a description of the changes
+
+3. Once all changes are ready to publish:
+   ```bash
+   # Update package versions and changelogs
+   bun changeset version
+
+   # Publish packages to NPM
+   bun publish-package
+   ```
+
+The `publish-package` command will:
+- Verify your NPM token is valid
+- Build all packages
+- Publish updated packages to NPM
+
+Note: Make sure your changes are committed before running `changeset version` as it will create new commits for the version updates.
 
 ## License
 
