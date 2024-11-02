@@ -54,7 +54,7 @@ await batchUpdate(db, users, [
 For cases where you need explicit transaction control:
 
 ```typescript
-import { transactionUpdate } from '@greybox/drizzle-utils';
+import { transactionUpdate } from '@greybox/drizzle-utils/transactionUpdate';
 
 await transactionUpdate({
   db,
