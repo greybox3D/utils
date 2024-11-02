@@ -14,7 +14,7 @@
 		"lint:fix": "turbo lint:fix",
 		"publish-package": "dotenv -e .env -- bun turbo publish-package",
 		"verify-npm-config-token": "dotenv -e .env -- bun ./scripts/verify-npm-config-token.ts",
-		"upgrade-deps": "bunx taze -Ir"
+		"upgrade-deps": "bunx taze -Irwi"
 	},
 	"keywords": [],
 	"author": "",
