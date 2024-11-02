@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 1.2.1
+
+### Patch Changes
+
+- Update READMEs
+
 ## 1.2.0
 
 ### Minor Changes

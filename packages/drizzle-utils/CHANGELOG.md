@@ -1,5 +1,11 @@
 # @greybox/drizzle-utils
 
+## 1.0.2
+
+### Patch Changes
+
+- Update READMEs
+
 ## 1.0.1
 
 ### Patch Changes
