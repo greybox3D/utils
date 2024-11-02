@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@greybox/drizzle-utils",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"private": false,
 	"license": "MIT",
 	"repository": {
@@ -30,7 +30,10 @@
 		"vitest": "^2.1.4"
 	},
 	"exports": {
-		"./*": "./src/*"
+		"./*": {
+			"import": "./src/*",
+			"types": "./src/*"
+		}
 	},
 	"files": [
 		"src"
