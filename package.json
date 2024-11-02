@@ -12,7 +12,7 @@
 		"test:watch": "bunx vitest",
 		"lint": "turbo lint",
 		"lint:fix": "turbo lint:fix",
-		"publish-package": "dotenv -e .env -- bun turbo publish-package",
+		"publish-package": "dotenv -e .env -- bun turbo publish-package --parallel --continue",
 		"verify-npm-config-token": "dotenv -e .env -- bun ./scripts/verify-npm-config-token.ts",
 		"upgrade-deps": "bunx taze -Irwi"
 	},
