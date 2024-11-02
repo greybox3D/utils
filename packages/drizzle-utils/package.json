@@ -1,10 +1,12 @@
 {
-	"name": "@greybox/hono-typed-fetcher",
-	"version": "1.2.0",
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "@greybox/drizzle-utils",
+	"version": "0.0.0",
 	"private": false,
+	"license": "MIT",
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
-		"directory": "packages/hono-typed-fetcher"
+		"directory": "packages/drizzle-utils"
 	},
 	"type": "module",
 	"scripts": {
@@ -14,27 +16,17 @@
 		"lint:fix": "biome check --write .",
 		"publish-package": "bun publish"
 	},
-	"dependencies": {
-		"@hono/zod-validator": "^0.4.1",
-		"hono": "^4.6.8",
-		"zod": "^3.23.8"
-	},
+	"dependencies": { "drizzle-orm": "^0.36.0" },
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.9",
-		"@cloudflare/workers-types": "^4.20241022.0",
-		"@greybox/wrangler-config-helper": "workspace:*",
-		"@hono/node-server": "^1.13.4",
+		"@electric-sql/pglite": "^0.2.12",
 		"@types/bun": "^1.1.12",
-		"ky": "^1.7.2",
-		"ts-miniflare": "^0.2.0",
+		"benchmark": "^2.1.4",
+		"uuid": "^11.0.2",
 		"vitest": "^2.1.4"
 	},
 	"exports": {
-		".": {
-			"import": "./src/honoFetcher.ts",
-			"types": "./src/honoFetcher.ts"
-		},
 		"./*": "./src/*"
 	},
 	"files": ["src"]
