@@ -1,14 +1,6 @@
 # @greybox/hono-typed-fetcher
 
-A TypeScript library for creating type-safe fetchers for Hono apps and Cloudflare Durable Objects.
-
-## Features
-
-- Type-safe fetchers for Hono apps
-- Support for Cloudflare Durable Objects
-- Flexible fetcher implementations (app-based, direct fetch, and Ky-based)
-- Automatic path parameter handling
-- JSON and form data support
+Type-safe fetcher for Hono apps and Cloudflare Durable Objects.
 
 ## Installation
 
@@ -16,9 +8,21 @@ A TypeScript library for creating type-safe fetchers for Hono apps and Cloudflar
 bun add @greybox/hono-typed-fetcher
 ```
 
-## Usage
+## Features
 
-### Creating a Hono Fetcher
+- Type-safe fetchers for Hono apps
+- Support for Cloudflare Durable Objects
+- Multiple fetcher implementations:
+  - App-based
+  - Direct fetch
+  - Ky-based
+- Automatic path parameter handling
+- JSON and form data support with type validation
+- Full TypeScript support with inferred response types
+
+## Basic Usage
+
+### GET Request
 
 ```typescript
 import { Hono } from 'hono';
@@ -28,14 +32,9 @@ const app = new Hono()
   .get('/users/:id', (c) => {
     const id = c.req.param('id');
     return c.json({ id, name: `User ${id}` });
-  })
-  .post('/items', async (c) => {
-    const { item } = await c.req.json();
-    return c.json({ success: true, item });
   });
 
 const fetcher = honoFetcher<typeof app>((request, init) => {
-  // Implement your fetch logic here
   return fetch(request, init);
 });
 
@@ -45,20 +44,74 @@ const response = await fetcher.get({
   params: { id: '123' }
 });
 const data = await response.json();
-// data: { id: string, name: string }
-
-// Type-safe POST request
-const postResponse = await fetcher.post({
-  url: '/items',
-  body: { item: 'New Item' }
-});
-const postData = await postResponse.json();
-// postData: { success: boolean, item: string }
+// data is typed as { id: string, name: string }
 ```
 
-### Using Different Fetcher Implementations
+### POST Request with JSON Body
 
-#### App-based Fetcher
+```typescript
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { z } from 'zod';
+
+const app = new Hono()
+  .post('/items', 
+    zValidator('json', z.object({
+      item: z.string()
+    })),
+    async (c) => {
+      const body = c.req.valid('json');
+      return c.json({ success: true, body });
+    }
+  );
+
+const fetcher = honoFetcher<typeof app>(app.request);
+
+// Type-safe POST request with JSON body
+const response = await fetcher.post({
+  url: '/items',
+  body: { item: 'newItem' }
+});
+const data = await response.json();
+// data is typed as { success: boolean, body: { item: string } }
+```
+
+### POST Request with Form Data
+
+```typescript
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { z } from 'zod';
+
+const app = new Hono()
+  .post('/items-form',
+    zValidator('form', z.object({
+      item: z.string(),
+      quantity: z.coerce.number()
+    })),
+    async (c) => {
+      const body = c.req.valid('form');
+      return c.json({ success: true, body });
+    }
+  );
+
+const fetcher = honoFetcher<typeof app>(app.request);
+
+// Type-safe POST request with form data
+const response = await fetcher.post({
+  url: '/items-form',
+  form: {
+    item: 'newItem',
+    quantity: '5'  // Will be coerced to number
+  }
+});
+const data = await response.json();
+// data is typed as { success: boolean, body: { item: string, quantity: number } }
+```
+
+## Fetcher Types
+
+### App-based Fetcher
 
 ```typescript
 import { appHonoFetcher } from '@greybox/hono-typed-fetcher/appHonoFetcher';
@@ -66,7 +119,7 @@ import { appHonoFetcher } from '@greybox/hono-typed-fetcher/appHonoFetcher';
 const fetcher = appHonoFetcher<typeof app>(app);
 ```
 
-#### Direct Fetch-based Fetcher
+### Direct Fetch
 
 ```typescript
 import { fetchHonoFetcher } from '@greybox/hono-typed-fetcher/fetchHonoFetcher';
@@ -74,59 +127,25 @@ import { fetchHonoFetcher } from '@greybox/hono-typed-fetcher/fetchHonoFetcher';
 const fetcher = fetchHonoFetcher<typeof app>('https://api.example.com');
 ```
 
-#### Ky-based Fetcher
+### Durable Objects
 
 ```typescript
-import { kyHonoFetcher } from '@greybox/hono-typed-fetcher/kyHonoFetcher';
+import { doFetcherWithName } from '@greybox/hono-typed-fetcher/doFetcher';
 
-const fetcher = kyHonoFetcher<typeof app>('https://api.example.com');
+const fetcher = doFetcherWithName(env.MY_DURABLE_OBJECT, 'instance-name');
 ```
 
-### Creating a Durable Object Fetcher
+### Ky-based Fetcher
 
 ```typescript
-import { doFetcherWithName, doFetcherWithId } from '@greybox/hono-typed-fetcher/doFetcher';
+import { honoKyFetcher } from '@greybox/hono-typed-fetcher/honoKyFetcher';
 
-// Using name
-const nameFetcher = doFetcherWithName(env.MY_DURABLE_OBJECT, 'instance-name');
-
-// Using ID
-const idFetcher = doFetcherWithId(env.MY_DURABLE_OBJECT, 'instance-id');
-
-// Type-safe requests to Durable Objects
-const response = await nameFetcher.get({ url: '/some-route' });
-const data = await response.json();
+const fetcher = honoKyFetcher<typeof app>('https://api.example.com');
 ```
 
-## API
+## API Documentation
 
-### `honoFetcher<T extends Hono>(fetcher: (request: string, init?: RequestInit) => Promise<Response>): TypedHonoFetcher<T>`
-
-Creates a type-safe fetcher for a Hono app.
-
-### `appHonoFetcher<T extends Hono>(app: T): TypedHonoFetcher<T>`
-
-Creates a type-safe fetcher using a Hono app instance.
-
-### `fetchHonoFetcher<T extends Hono>(baseUrl: string): TypedHonoFetcher<T>`
-
-Creates a type-safe fetcher using the native fetch API.
-
-### `kyHonoFetcher<T extends Hono>(baseUrl: string): TypedHonoFetcher<T>`
-
-Creates a type-safe fetcher using the Ky HTTP client.
-
-### `doFetcherWithName<T extends Rpc.DurableObjectBranded | undefined = undefined>(namespace: DurableObjectNamespace<T>, name: string): TypedFetcher<DurableObjectStub<T>>`
-
-Creates a type-safe fetcher for a Durable Object using its name.
-
-### `doFetcherWithId<T extends Rpc.DurableObjectBranded | undefined = undefined>(namespace: DurableObjectNamespace<T>, id: string): TypedFetcher<DurableObjectStub<T>>`
-
-Creates a type-safe fetcher for a Durable Object using its ID.
-
-## TypeScript Support
-
-This library is written in TypeScript and provides full type safety for your Hono apps and Durable Objects.
+Full API documentation is available in the source code and type definitions.
 
 ## Contributing
 
@@ -134,4 +153,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT License

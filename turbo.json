@@ -1,13 +1,6 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"tasks": {
-		"test": {
-			"cache": false
-		},
-		"test:watch": {
-			"persistent": true,
-			"cache": false
-		},
 		"lint": {
 			"cache": false
 		},

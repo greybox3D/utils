@@ -1,7 +1,7 @@
-import { Suite } from "benchmark";
 import { PGlite } from "@electric-sql/pglite";
-import { drizzle, type PgliteDatabase } from "drizzle-orm/pglite";
-import { pgTable, integer, text } from "drizzle-orm/pg-core";
+import { Suite } from "benchmark";
+import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { type PgliteDatabase, drizzle } from "drizzle-orm/pglite";
 import { batchUpdate } from "../src/batchUpdate";
 import { transactionUpdate } from "../src/transactionUpdate";
 

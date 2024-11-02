@@ -8,8 +8,8 @@
 	},
 	"workspaces": ["packages/*"],
 	"scripts": {
-		"test": "turbo test",
-		"test:watch": "turbo test:watch --ui tui",
+		"test": "bunx vitest --run",
+		"test:watch": "bunx vitest",
 		"lint": "turbo lint",
 		"lint:fix": "turbo lint:fix",
 		"publish-package": "dotenv -e .env -- bun turbo publish-package",

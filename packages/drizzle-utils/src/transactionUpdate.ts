@@ -1,10 +1,10 @@
 import { type GetColumnData, eq } from "drizzle-orm";
 import type {
-	PgDatabase,
-	PgColumn,
 	AnyPgTable,
-	TableConfig,
+	PgColumn,
+	PgDatabase,
 	PgUpdateSetSource,
+	TableConfig,
 } from "drizzle-orm/pg-core";
 
 export const transactionUpdate = async <

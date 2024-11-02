@@ -1,29 +1,27 @@
 # Greybox Utils
 
-This project is a collection of utility packages for Cloudflare Workers and related technologies. It's set up as a monorepo using Bun and Turborepo for efficient management and building.
+A collection of utility packages for Cloudflare Workers, DrizzleORM, and related technologies. Set up as a monorepo using Bun and Turborepo for efficient management and building.
 
-## Project Structure
+## Packages
 
-The project is organized as follows:
-
-- `packages/`:
-  - `@greybox/biome-config`: Biome (linter/formatter) configuration
-  - `@greybox/hono-typed-fetcher`: Type-safe fetcher for Hono apps and Durable Objects
-  - `@greybox/shared-tsconfig`: Shared TypeScript configuration
-  - `@greybox/wrangler-config-helper`: Utilities for Wrangler configuration
+- `@greybox/biome-config`: Shared Biome (linter/formatter) configuration
+- `@greybox/drizzle-utils`: Enhanced batch update functionality for DrizzleORM with PostgreSQL
+- `@greybox/hono-typed-fetcher`: Type-safe fetcher for Hono apps and Durable Objects
+- `@greybox/shared-tsconfig`: Shared TypeScript configuration
+- `@greybox/wrangler-config-helper`: Utilities for Wrangler configuration management
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (v20 or later recommended)
 - [Bun](https://bun.sh/) (latest version)
 
-This project is set up to use Bun and Turborepo. While it may be possible to use npm or Yarn, this is not officially supported.
+This project uses Bun and Turborepo. While npm or Yarn may work, they are not officially supported.
 
 ## Getting Started
 
 1. Clone this repository
 2. Install dependencies:
-   ```
+   ```bash
    bun install
    ```
 
@@ -37,31 +35,59 @@ Runs tests for all packages.
 
 ### `bun run test:watch`
 
-Runs tests for all packages in watch mode.
+Runs tests in watch mode.
 
 ### `bun run lint`
 
-Runs the linter (Biome) across all packages.
+Runs Biome linter across all packages.
 
 ### `bun run lint:fix`
 
-Runs the linter (Biome) across all packages and fixes the linting errors.
+Runs Biome linter and fixes errors.
 
-## Features
+## Publishing
 
-- TypeScript support
-- Biome for linting and formatting
-- Vitest for testing
-- Hono for API routing in Durable Objects
-- Custom type-safe fetcher for Hono apps and Durable Objects
-- Wrangler configuration helpers
+### Prerequisites
+
+1. Create an NPM account if needed
+2. Generate an NPM access token:
+   - Go to npmjs.com → Your profile → Access Tokens
+   - Create a new "Automation" token
+3. Add your NPM token to `.env`:
+   ```
+   NPM_CONFIG_TOKEN=your-npm-token-here
+   ```
+
+### Publishing Process
+
+1. Create a changeset for each meaningful change:
+   ```bash
+   bun changeset
+   ```
+   - Select modified packages
+   - Choose version bump type
+   - Describe changes
+
+2. When ready to publish:
+   ```bash
+   # Update versions and changelogs
+   bun changeset version
+
+   # Publish to NPM
+   bun publish-package
+   ```
+
+The `publish-package` command will:
+- Verify NPM token
+- Build packages
+- Publish updates to NPM
+
+Note: Commit changes before running `changeset version` as it creates version update commits.
 
 ## Learn More
 
-To learn more about the technologies used in this project, check out the following resources:
-
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/)
-- [Cloudflare Durable Objects](https://developers.cloudflare.com/workers/learning/using-durable-objects)
+- [DrizzleORM](https://orm.drizzle.team/)
 - [Turborepo](https://turbo.build/repo)
 - [Biome](https://biomejs.dev/)
 - [Vitest](https://vitest.dev/)
@@ -70,46 +96,6 @@ To learn more about the technologies used in this project, check out the followi
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Publishing
-
-### Prerequisites
-
-1. Create an NPM account if you don't have one
-2. Generate an NPM access token:
-   - Go to npmjs.com → Your profile → Access Tokens
-   - Create a new token with "Automation" type
-3. Create a `.env` file in the root directory and add your NPM token:
-   ```
-   NPM_CONFIG_TOKEN=your-npm-token-here
-   ```
-
-### Publishing Process
-
-1. Make your changes to the codebase
-2. For each meaningful change, create a changeset:
-   ```bash
-   bun changeset
-   ```
-   - Select the packages that were modified
-   - Choose the appropriate version bump (major/minor/patch)
-   - Provide a description of the changes
-
-3. Once all changes are ready to publish:
-   ```bash
-   # Update package versions and changelogs
-   bun changeset version
-
-   # Publish packages to NPM
-   bun publish-package
-   ```
-
-The `publish-package` command will:
-- Verify your NPM token is valid
-- Build all packages
-- Publish updated packages to NPM
-
-Note: Make sure your changes are committed before running `changeset version` as it will create new commits for the version updates.
 
 ## License
 

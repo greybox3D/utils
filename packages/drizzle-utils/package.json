@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@greybox/drizzle-utils",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": false,
 	"license": "MIT",
 	"repository": {
@@ -12,6 +12,7 @@
 	"scripts": {
 		"test": "bunx vitest --run",
 		"test:watch": "bunx vitest",
+		"benchmark": "bun ./benchmarks",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
 		"publish-package": "bun publish"

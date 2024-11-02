@@ -1,8 +1,8 @@
-import { sql, type GetColumnData, type SQL } from "drizzle-orm";
+import { type GetColumnData, type SQL, sql } from "drizzle-orm";
 import {
-	PgDialect,
 	type AnyPgTable,
 	type PgColumn,
+	PgDialect,
 	type PgUpdateSetSource,
 	type TableConfig,
 } from "drizzle-orm/pg-core";

@@ -1,31 +1,31 @@
+import { PGlite } from "@electric-sql/pglite";
+import { vector as vectorExtension } from "@electric-sql/pglite/vector";
+import { type SQL, sql } from "drizzle-orm";
 import {
-	describe,
-	it,
-	expect,
-	beforeAll,
-	afterAll,
-	assert,
-	afterEach,
-	beforeEach,
-	vi,
-	type MockInstance,
-} from "vitest";
-import { batchUpdate } from "../src/batchUpdate";
-import {
+	integer,
+	jsonb,
 	pgTable,
 	text,
-	integer,
+	timestamp,
 	uuid,
 	vector,
-	jsonb,
-	timestamp,
 } from "drizzle-orm/pg-core";
-import { sql, type SQL } from "drizzle-orm";
-import { drizzle, type PgliteDatabase } from "drizzle-orm/pglite";
-import { PGlite } from "@electric-sql/pglite";
 import { PgDialect } from "drizzle-orm/pg-core";
+import { type PgliteDatabase, drizzle } from "drizzle-orm/pglite";
 import { v7 } from "uuid";
-import { vector as vectorExtension } from "@electric-sql/pglite/vector";
+import {
+	assert,
+	type MockInstance,
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vitest";
+import { batchUpdate } from "../src/batchUpdate";
 
 const pgDialect = new PgDialect();
 
