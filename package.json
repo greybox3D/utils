@@ -12,6 +12,8 @@
 		"test:watch": "turbo test:watch --ui tui",
 		"lint": "turbo lint",
 		"lint:fix": "turbo lint:fix",
+		"publish-package": "dotenv -e .env -- bun turbo publish-package",
+		"verify-npm-config-token": "dotenv -e .env -- bun ./scripts/verify-npm-config-token.ts",
 		"upgrade-deps": "bunx taze -Ir"
 	},
 	"keywords": [],
@@ -20,6 +22,9 @@
 	"devDependencies": {
 		"turbo": "^2.2.3"
 	},
-	"packageManager": "bun@1.1.32",
-	"trustedDependencies": ["@biomejs/biome"]
+	"packageManager": "bun@1.1.34",
+	"trustedDependencies": ["@biomejs/biome"],
+	"dependencies": {
+		"dotenv-cli": "^7.4.2"
+	}
 }

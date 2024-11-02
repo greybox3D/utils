@@ -71,6 +71,13 @@ To learn more about the technologies used in this project, check out the followi
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## Publishing
+- do changes
+- run bun changeset per commit
+- run bun changeset version
+- run bun publish-package
+
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).

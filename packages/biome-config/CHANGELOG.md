@@ -1,5 +1,11 @@
 # @greybox/biome-config
 
+## 1.1.0
+
+### Minor Changes
+
+- Upgrade dependencies
+
 ## 1.0.2
 
 ### Patch Changes

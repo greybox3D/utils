@@ -15,7 +15,13 @@
 			"cache": false
 		},
 		"publish-package": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["verify-npm-config-token"],
+			"env": ["NPM_CONFIG_TOKEN"]
+		},
+		"verify-npm-config-token": {
+			"cache": false,
+			"env": ["NPM_CONFIG_TOKEN"]
 		}
 	},
 	"ui": "stream"
