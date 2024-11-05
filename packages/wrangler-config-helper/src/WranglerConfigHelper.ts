@@ -14,6 +14,11 @@ export class WranglerConfigHelper {
 		this.parsedConfig = TOML.parse(wranglerContent);
 	}
 
+	patchConfig(callback: (config: TOML.JsonMap) => TOML.JsonMap): this {
+		this.parsedConfig = callback(JSON.parse(JSON.stringify(this.parsedConfig)));
+		return this;
+	}
+
 	prepareEnvironmentConfig(environment?: string): string {
 		const config = { ...this.parsedConfig };
 
