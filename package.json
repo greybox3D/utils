@@ -6,7 +6,9 @@
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git"
 	},
-	"workspaces": ["packages/*"],
+	"workspaces": [
+		"packages/*"
+	],
 	"scripts": {
 		"test": "bunx vitest --run",
 		"test:watch": "bunx vitest",
@@ -23,7 +25,9 @@
 		"turbo": "^2.2.3"
 	},
 	"packageManager": "bun@1.1.34",
-	"trustedDependencies": ["@biomejs/biome"],
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
 	"dependencies": {
 		"dotenv-cli": "^7.4.2"
 	}
