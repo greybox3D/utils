@@ -17,7 +17,7 @@ describe("doFetcher with mock worker", () => {
 		const originalWranglerPath = path.resolve(__dirname, "wrangler.toml");
 		const workerPath = path.resolve(__dirname, "worker.ts");
 		wranglerSetup = new WranglerTestSetup(originalWranglerPath, workerPath, {
-			environment: "dev",
+			environment: "local",
 		});
 		abortController = new AbortController();
 		await wranglerSetup.setup(abortController.signal);
@@ -25,6 +25,30 @@ describe("doFetcher with mock worker", () => {
 
 	afterAll(async () => {
 		abortController.abort();
+	});
+
+	test("worker is running", async () => {
+		// expect(wranglerSetup.worker).not.toBeNull();
+	});
+
+	// test("worker is responding to requests", async () => {
+	// 	const response = await fetch("http://localhost:8787/test");
+	// 	const data = await response?.text();
+	// 	expect(data).toEqual("Interesting path: http://localhost:8787/test");
+	// });
+
+	test("durable object can be instantiated", async () => {
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		const id = wranglerSetup.env.TEST.idFromName("test-id");
+		const obj = await wranglerSetup.env.TEST.get(id);
+		expect(obj).not.toBeNull();
+
+		const response = await obj.fetch("http://localhost:8787/test");
+		const data = await response.json();
+		expect(data).toEqual({
+			method: "GET",
+			id: expect.any(String),
+		});
 	});
 
 	const runFetcherTests = (

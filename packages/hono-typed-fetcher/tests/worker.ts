@@ -16,6 +16,12 @@ export class TestDurableObject
 	extends DurableObject<TestEnv>
 	implements DOWithHonoApp
 {
+	constructor(ctx: DurableObjectState, env: TestEnv) {
+		super(ctx, env);
+
+		console.log("TestDurableObject constructor", ctx.id);
+	}
+
 	app = new Hono<TestHonoEnv>()
 		.get("/test", (c) => {
 			console.log("GET /test");
@@ -92,6 +98,7 @@ export class TestDurableObject
 		});
 
 	override async fetch(request: Request) {
+		console.log("fetch!?", request.url);
 		return this.app.fetch(request);
 	}
 }

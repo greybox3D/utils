@@ -9,12 +9,11 @@ bindings = [
   { name = "TEST", class_name = "TestDurableObject", script_name="test-worker" }
 ]
 
-[env.dev]
-workers_dev = true
+[env.local]
 
-[env.dev.durable_objects]
+[env.local.durable_objects]
 bindings = [
-  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-dev", environment="dev" }
+  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-local", environment="local" }
 ]
 
 [[migrations]]
