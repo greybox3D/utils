@@ -1,5 +1,11 @@
 # @greybox/shared-tsconfig
 
+## 1.2.1
+
+### Patch Changes
+
+- Improve tsconfigs
+
 ## 1.2.0
 
 ### Minor Changes

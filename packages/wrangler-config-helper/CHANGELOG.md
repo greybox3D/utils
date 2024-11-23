@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 1.4.1
+
+### Patch Changes
+
+- Improve tsconfigs
+
 ## 1.4.0
 
 ### Minor Changes

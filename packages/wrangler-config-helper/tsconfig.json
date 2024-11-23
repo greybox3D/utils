@@ -1,23 +1,9 @@
 {
+	"extends": "@greybox/shared-tsconfig/tsconfig.json",
 	"include": ["src/**/*.ts"],
 	"exclude": ["../../node_modules"],
 	"compilerOptions": {
 		"types": ["@cloudflare/workers-types", "node"],
-		"baseUrl": ".",
-		"lib": ["DOM", "DOM.Iterable", "ES2022"],
-		"isolatedModules": true,
-		"esModuleInterop": true,
-		"moduleResolution": "Bundler",
-		"resolveJsonModule": true,
-		"target": "ES2022",
-		"module": "ESNext",
-		"strict": true,
-		"allowJs": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noImplicitAny": true,
-		"noEmit": true
+		"baseUrl": "."
 	}
 }
