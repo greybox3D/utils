@@ -39,9 +39,7 @@
 			"types": "./src/transactionUpdate.ts"
 		}
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

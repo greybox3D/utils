@@ -2,7 +2,7 @@ import { DurableObject } from "cloudflare:workers";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
-import type { DOWithHonoApp } from "../src/doFetcher";
+import type { DOWithHonoApp } from "../src/honoDoFetcher";
 
 export type TestEnv = {
 	TEST: DurableObjectNamespace<TestDurableObject>;
@@ -18,6 +18,7 @@ export class TestDurableObject
 {
 	app = new Hono<TestHonoEnv>()
 		.get("/test", (c) => {
+			console.log("GET /test");
 			return c.json({ method: "GET", id: this.ctx.id });
 		})
 		.post("/test", async (c) => {
@@ -97,11 +98,16 @@ export class TestDurableObject
 
 const worker = new Hono<TestHonoEnv>()
 	.all("/test/:id/*", async (c) => {
+		console.log("all /test/:id/*", c.req.url);
+
 		const id = c.req.param("id");
 		const namespace = c.env.TEST;
 		const stub = namespace.get(namespace.idFromString(id));
 		return stub.fetch(c.req.raw);
 	})
-	.all("*", (c) => c.text(`Interesting path: ${c.req.url}`));
+	.all("*", (c) => {
+		console.log("all *", c.req.url);
+		return c.text(`Interesting path: ${c.req.url}`);
+	});
 
 export default worker;

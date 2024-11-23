@@ -52,9 +52,7 @@
 			"types": "./src/honoKyFetcher.ts"
 		}
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

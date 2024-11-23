@@ -64,6 +64,7 @@ export const batchUpdate = async <
 		id: GetColumnData<T["id"], "raw">;
 		update: PgUpdateSetSource<T>;
 	}[],
+	debug = false,
 ) => {
 	if (tasks.length === 0) return;
 
@@ -87,11 +88,13 @@ export const batchUpdate = async <
 		const sql = generateBatchUpdate(table, tasks);
 		if (sql) {
 			await db.execute(sql).catch((e) => {
-				console.error(
-					`Error executing batch update: ${e}, sql: ${
-						pgDialect.sqlToQuery(sql).sql
-					}`,
-				);
+				if (debug) {
+					console.error(
+						`Error executing batch update: ${e}, sql: ${
+							pgDialect.sqlToQuery(sql).sql
+						}`,
+					);
+				}
 				throw e;
 			});
 		}
@@ -104,11 +107,13 @@ export const batchUpdate = async <
 			const sql = generateBatchUpdate(table, groupTasks);
 			if (sql) {
 				await tx.execute(sql).catch((e) => {
-					console.error(
-						`Error executing batch update: ${e}, sql: ${
-							pgDialect.sqlToQuery(sql).sql
-						}`,
-					);
+					if (debug) {
+						console.error(
+							`Error executing batch update: ${e}, sql: ${
+								pgDialect.sqlToQuery(sql).sql
+							}`,
+						);
+					}
 					throw e;
 				});
 			}

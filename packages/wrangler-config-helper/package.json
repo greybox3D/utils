@@ -32,15 +32,8 @@
 			"types": "./src/WranglerTestSetup.ts"
 		}
 	},
-	"files": [
-		"src",
-		"tsconfig.json",
-		"README.md",
-		"LICENSE"
-	],
-	"trustedDependencies": [
-		"@biomejs/biome"
-	],
+	"files": ["src", "tsconfig.json", "README.md", "LICENSE"],
+	"trustedDependencies": ["@biomejs/biome"],
 	"publishConfig": {
 		"access": "public"
 	}

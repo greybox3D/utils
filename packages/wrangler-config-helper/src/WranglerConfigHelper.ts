@@ -19,7 +19,14 @@ export class WranglerConfigHelper {
 		return this;
 	}
 
-	prepareEnvironmentConfig(environment?: string): string {
+	prepareEnvironmentConfig(
+		environment?: string,
+		skipPatching?: boolean,
+	): string {
+		if (skipPatching) {
+			return this.originalWranglerPath;
+		}
+
 		const config = { ...this.parsedConfig };
 
 		if (environment && environment.length > 0) {

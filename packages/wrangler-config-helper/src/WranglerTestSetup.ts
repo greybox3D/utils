@@ -15,6 +15,7 @@ export class WranglerTestSetup<Env> {
 		private workerPath: string,
 		private config: {
 			environment?: string;
+			skipPatching?: boolean;
 		} = {},
 	) {
 		this.wranglerHelper = new WranglerConfigHelper(originalWranglerPath);
@@ -23,6 +24,7 @@ export class WranglerTestSetup<Env> {
 	async setup(abortSignal: AbortSignal): Promise<void> {
 		const proxyConfigPath = this.wranglerHelper.prepareEnvironmentConfig(
 			this.config.environment,
+			this.config.skipPatching,
 		);
 
 		abortSignal.addEventListener("abort", () => this.cleanup(), { once: true });

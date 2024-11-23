@@ -40,11 +40,17 @@ describe("doFetcher with mock worker", () => {
 
 			test("GET request", async () => {
 				const response = await fetcher.get({ url: "/test" });
-				const data = await response.json();
-				expect(data).toEqual({
-					method: "GET",
-					id: expect.any(String),
-				});
+				const responseBody = await response.text();
+				try {
+					const data = JSON.parse(responseBody);
+					expect(data).toEqual({
+						method: "GET",
+						id: expect.any(String),
+					});
+				} catch (error) {
+					console.error(responseBody, error);
+					throw error;
+				}
 			});
 
 			test("POST request", async () => {
