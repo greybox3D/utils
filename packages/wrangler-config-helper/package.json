@@ -14,12 +14,12 @@
 	},
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",
-		"wrangler": "^3.84.1"
+		"wrangler": "^3.90.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.27.9",
-		"@cloudflare/workers-types": "^4.20241022.0",
+		"@changesets/cli": "^2.27.10",
+		"@cloudflare/workers-types": "^4.20241112.0",
 		"@greybox/biome-config": "workspace:*"
 	},
 	"exports": {
@@ -32,8 +32,15 @@
 			"types": "./src/WranglerTestSetup.ts"
 		}
 	},
-	"files": ["src", "tsconfig.json", "README.md", "LICENSE"],
-	"trustedDependencies": ["@biomejs/biome"],
+	"files": [
+		"src",
+		"tsconfig.json",
+		"README.md",
+		"LICENSE"
+	],
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
 	"publishConfig": {
 		"access": "public"
 	}

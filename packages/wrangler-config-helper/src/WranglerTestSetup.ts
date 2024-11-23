@@ -1,15 +1,18 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { getPlatformProxy } from "wrangler";
+import {
+	type UnstableDevWorker,
+	getPlatformProxy,
+	unstable_dev,
+} from "wrangler";
 import { WranglerConfigHelper } from "./WranglerConfigHelper";
 
 export class WranglerTestSetup<Env> {
-	// private worker: UnstableDevWorker | null = null;
+	private worker: UnstableDevWorker | null = null;
 	private wranglerHelper: WranglerConfigHelper;
 	private wranglerProcess: ReturnType<typeof spawn> | null = null;
 	private platformProxy: { env: Env } | null = null;
-	// private wranglerHelper: WranglerConfigHelper;
 
 	constructor(
 		private originalWranglerPath: string,
@@ -80,5 +83,8 @@ export class WranglerTestSetup<Env> {
 			this.wranglerProcess.kill();
 		}
 		this.wranglerHelper.cleanup();
+		if (this.worker) {
+			await this.worker.stop();
+		}
 	}
 }

@@ -18,16 +18,16 @@
 		"publish-package": "bun publish"
 	},
 	"dependencies": {
-		"drizzle-orm": "^0.36.0"
+		"drizzle-orm": "^0.36.4"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.27.9",
-		"@electric-sql/pglite": "^0.2.12",
+		"@changesets/cli": "^2.27.10",
+		"@electric-sql/pglite": "^0.2.13",
 		"@types/bun": "^1.1.13",
 		"benchmark": "^2.1.4",
-		"uuid": "^11.0.2",
-		"vitest": "^2.1.4"
+		"uuid": "^11.0.3",
+		"vitest": "^2.1.5"
 	},
 	"exports": {
 		"./batchUpdate": {
@@ -39,7 +39,9 @@
 			"types": "./src/transactionUpdate.ts"
 		}
 	},
-	"files": ["src"],
+	"files": [
+		"src"
+	],
 	"publishConfig": {
 		"access": "public"
 	}

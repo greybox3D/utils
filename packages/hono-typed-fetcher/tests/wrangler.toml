@@ -13,7 +13,7 @@ bindings = [
 
 [env.local.durable_objects]
 bindings = [
-  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-local", environment="local" }
+  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-local" }
 ]
 
 [[migrations]]

@@ -6,7 +6,9 @@
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git"
 	},
-	"workspaces": ["packages/*"],
+	"workspaces": [
+		"packages/*"
+	],
 	"scripts": {
 		"test": "bunx vitest --run",
 		"test:watch": "bunx vitest",
@@ -20,11 +22,13 @@
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
-		"turbo": "^2.2.3"
+		"turbo": "^2.3.1"
 	},
-	"packageManager": "bun@1.1.34",
-	"trustedDependencies": ["@biomejs/biome"],
+	"packageManager": "bun@1.1.36",
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
 	"dependencies": {
-		"dotenv-cli": "^7.4.2"
+		"dotenv-cli": "^7.4.4"
 	}
 }
