@@ -7,11 +7,15 @@ export class WranglerConfigHelper {
 	private originalWranglerPath: string;
 	private parsedConfig: TOML.JsonMap;
 	private tempConfigPath: string | null = null;
+	private isToml: boolean;
 
 	constructor(wranglerPath: string) {
 		this.originalWranglerPath = wranglerPath;
+		this.isToml = wranglerPath.endsWith(".toml");
 		const wranglerContent = fs.readFileSync(this.originalWranglerPath, "utf-8");
-		this.parsedConfig = TOML.parse(wranglerContent);
+		this.parsedConfig = this.isToml
+			? TOML.parse(wranglerContent)
+			: JSON.parse(wranglerContent);
 	}
 
 	patchConfig(callback: (config: TOML.JsonMap) => TOML.JsonMap): this {
@@ -33,10 +37,14 @@ export class WranglerConfigHelper {
 			config.name = `${config.name}-${environment}`;
 		}
 
-		const fileName = `wrangler-${Date.now()}.toml`;
+		const extension = this.isToml ? "toml" : "json";
+		const fileName = `wrangler-${Date.now()}.${extension}`;
 		this.tempConfigPath = path.join(os.tmpdir(), fileName);
 
-		fs.writeFileSync(this.tempConfigPath, TOML.stringify(config));
+		const content = this.isToml
+			? TOML.stringify(config)
+			: JSON.stringify(config, null, 2);
+		fs.writeFileSync(this.tempConfigPath, content);
 
 		return this.tempConfigPath;
 	}
