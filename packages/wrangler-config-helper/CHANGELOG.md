@@ -1,5 +1,18 @@
 # @greybox/wrangler-config-helper
 
+## 1.5.1
+
+### Patch Changes
+
+- Adds JSON config file support alongside TOML
+
+  • Extends configuration handling to support both TOML and JSON formats
+  • Determines file format based on extension
+  • Updates file reading and writing logic to handle both formats appropriately
+  • Maintains backward compatibility with existing TOML configs
+
+  Improves flexibility by allowing developers to use their preferred config format
+
 ## 1.5.0
 
 ### Minor Changes
