@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 2.0.1
+
+### Patch Changes
+
+- Simplify exports
+
 ## 2.0.0
 
 ### Major Changes

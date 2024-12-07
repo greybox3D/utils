@@ -25,28 +25,6 @@
 		"@types/bun": "^1.1.14",
 		"vitest": "2.1.5"
 	},
-	"exports": {
-		".": {
-			"import": "./src/honoFetcher.ts",
-			"types": "./src/honoFetcher.ts"
-		},
-		"./appHonoFetcher": {
-			"import": "./src/appHonoFetcher.ts",
-			"types": "./src/appHonoFetcher.ts"
-		},
-		"./honoDirectFetcher": {
-			"import": "./src/honoDirectFetcher.ts",
-			"types": "./src/honoDirectFetcher.ts"
-		},
-		"./honoDoFetcher": {
-			"import": "./src/honoDoFetcher.ts",
-			"types": "./src/honoDoFetcher.ts"
-		},
-		"./honoKyFetcher": {
-			"import": "./src/honoKyFetcher.ts",
-			"types": "./src/honoKyFetcher.ts"
-		}
-	},
 	"files": [
 		"src"
 	],
