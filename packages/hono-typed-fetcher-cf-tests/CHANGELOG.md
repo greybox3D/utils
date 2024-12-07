@@ -1,11 +1,5 @@
 # @greybox/hono-typed-fetcher
 
-## 2.0.0
-
-### Major Changes
-
-- Upgrade to latest CF
-
 ## 1.4.0
 
 ### Minor Changes

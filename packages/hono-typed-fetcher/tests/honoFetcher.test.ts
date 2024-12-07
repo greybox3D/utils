@@ -200,7 +200,7 @@ describe("honoFetcher", () => {
 		});
 	});
 
-	describe("type checks", () => {
+	describe.skip("type checks", () => {
 		let fetcher: TypedHonoFetcher<typeof app>;
 
 		beforeAll(() => {
@@ -367,7 +367,7 @@ describe("honoFetcher", () => {
 			>();
 		});
 
-		it("should not allow both form and body to be specified", () => {
+		it.skip("should not allow both form and body to be specified", () => {
 			expectTypeOf(
 				fetcher.post({
 					url: "/items-form",

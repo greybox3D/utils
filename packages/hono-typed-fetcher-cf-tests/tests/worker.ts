@@ -2,7 +2,7 @@ import { DurableObject } from "cloudflare:workers";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
-import type { DOWithHonoApp } from "../src/honoDoFetcher";
+import type { DOWithHonoApp } from "../../hono-typed-fetcher/src/honoDoFetcher";
 
 export type TestEnv = {
 	TEST: DurableObjectNamespace<TestDurableObject>;

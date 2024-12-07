@@ -1,18 +1,16 @@
 {
-	"name": "@greybox/hono-typed-fetcher",
-	"version": "2.0.0",
+	"name": "@greybox/hono-typed-fetcher-cf-tests",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
-		"directory": "packages/hono-typed-fetcher"
+		"directory": "packages/hono-typed-fetcher-cf-tests"
 	},
 	"type": "module",
 	"scripts": {
 		"test": "npx vitest --run --typecheck",
 		"test:watch": "npx vitest --typecheck",
 		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
-		"publish-package": "bun publish"
+		"lint:fix": "biome check --write ."
 	},
 	"dependencies": {
 		"@hono/zod-validator": "^0.4.1",
@@ -21,12 +19,10 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.27.10",
+		"@cloudflare/vitest-pool-workers": "^0.5.34",
 		"@cloudflare/workers-types": "^4.20241205.0",
 		"@greybox/wrangler-config-helper": "workspace:*",
-		"@hono/node-server": "^1.13.7",
 		"@types/bun": "^1.1.14",
-		"ky": "^1.7.2",
 		"vitest": "2.1.5"
 	},
 	"exports": {

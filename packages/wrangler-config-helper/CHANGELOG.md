@@ -1,5 +1,11 @@
 # @greybox/wrangler-config-helper
 
+## 2.0.0
+
+### Major Changes
+
+- Upgrade to latest CF
+
 ## 1.5.1
 
 ### Patch Changes

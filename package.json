@@ -6,12 +6,10 @@
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git"
 	},
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": ["packages/*"],
 	"scripts": {
-		"test": "bunx vitest --run",
-		"test:watch": "bunx vitest",
+		"test": "turbo test",
+		"test:watch": "turbo test --watch",
 		"lint": "turbo lint",
 		"lint:fix": "turbo lint:fix",
 		"publish-package": "dotenv -e .env -- bun turbo publish-package --parallel --continue",
@@ -25,9 +23,7 @@
 		"turbo": "^2.3.3"
 	},
 	"packageManager": "bun@1.1.38",
-	"trustedDependencies": [
-		"@biomejs/biome"
-	],
+	"trustedDependencies": ["@biomejs/biome"],
 	"dependencies": {
 		"dotenv-cli": "^7.4.4"
 	}

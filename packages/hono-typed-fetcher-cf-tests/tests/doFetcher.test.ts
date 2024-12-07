@@ -1,78 +1,29 @@
-import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 import {
 	type TypedFetcher,
 	honoDoFetcherWithId,
 	honoDoFetcherWithName,
-} from "../src/honoDoFetcher";
+} from "../../hono-typed-fetcher/src/honoDoFetcher";
 
-import path from "node:path";
-import { WranglerTestSetup } from "@greybox/wrangler-config-helper/WranglerTestSetup";
+import { env } from "cloudflare:test";
 import type { TestDurableObject, TestEnv } from "./worker";
+
+declare module "cloudflare:test" {
+	interface ProvidedEnv {
+		TEST: DurableObjectNamespace<TestDurableObject>;
+	}
+}
 
 describe.skipIf(process.env.CI !== undefined)(
 	"doFetcher with mock worker",
 	() => {
-		let wranglerSetup: WranglerTestSetup<TestEnv>;
-		let abortController: AbortController;
-
-		beforeAll(async () => {
-			const originalWranglerPath = path.resolve(__dirname, "wrangler.toml");
-			const workerPath = path.resolve(__dirname, "worker.ts");
-			wranglerSetup = new WranglerTestSetup(originalWranglerPath, workerPath, {
-				environment: "local",
-				// skipPatching: true,
-			});
-			abortController = new AbortController();
-			await wranglerSetup.setup(abortController.signal);
-
-			// await new Promise((resolve) => setTimeout(resolve, 2000));
-			const id = wranglerSetup.env.TEST.idFromName("test-id");
-			const obj = wranglerSetup.env.TEST.get(id);
-			expect(obj).not.toBeNull();
-
-			const startTime = Date.now();
-
-			while (true) {
-				try {
-					const response = await obj.fetch("http://localhost:8787/test");
-					const data = (await response.json()) as { method: string };
-					if (data.method === "GET") {
-						break;
-					}
-				} catch {
-					// let's wait a bit
-				}
-
-				console.log("waiting for worker to start...");
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-
-				if (Date.now() - startTime > 10_000) {
-					throw new Error("Worker failed to start");
-				}
-			}
-		});
-
-		afterAll(async () => {
-			abortController.abort();
-		});
-
-		test("worker is running", async () => {
-			// expect(wranglerSetup.worker).not.toBeNull();
-		});
-
-		// test("worker is responding to requests", async () => {
-		// 	const response = await fetch("http://localhost:8787/test");
-		// 	const data = await response?.text();
-		// 	expect(data).toEqual("Interesting path: http://localhost:8787/test");
-		// });
-
 		test("durable object can be instantiated", async () => {
 			await new Promise((resolve) => setTimeout(resolve, 2000));
-			const id = wranglerSetup.env.TEST.idFromName("test-id");
-			const obj = await wranglerSetup.env.TEST.get(id);
-			expect(obj).not.toBeNull();
+			const id = env.TEST.idFromName("test-id");
+			const stub = await env.TEST.get(id);
+			expect(stub).not.toBeNull();
 
-			const response = await obj.fetch("http://localhost:8787/test");
+			const response = await stub.fetch("http://localhost:8787/test");
 			const data = await response.json();
 			expect(data).toEqual({
 				method: "GET",
@@ -216,18 +167,14 @@ describe.skipIf(process.env.CI !== undefined)(
 		};
 
 		runFetcherTests("honoDoFetcherWithName", () =>
-			honoDoFetcherWithName(wranglerSetup.env.TEST, "test-name"),
+			honoDoFetcherWithName(env.TEST, "test-name"),
 		);
 
 		runFetcherTests("honoDoFetcherWithId", () =>
-			honoDoFetcherWithId(
-				wranglerSetup.env.TEST,
-				wranglerSetup.env.TEST.idFromName("test-id").toString(),
-			),
+			honoDoFetcherWithId(env.TEST, env.TEST.idFromName("test-id").toString()),
 		);
 	},
 );
-
 // // Typing tests
 // import { expectTypeOf } from "vitest";
 

@@ -6,14 +6,14 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [durable_objects]
 bindings = [
-  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker" }
+  { name = "TEST", class_name = "TestDurableObject" }
 ]
 
 [env.local]
 
 [env.local.durable_objects]
 bindings = [
-  { name = "TEST", class_name = "TestDurableObject", script_name="test-worker-local" }
+  { name = "TEST", class_name = "TestDurableObject" }
 ]
 
 [[migrations]]

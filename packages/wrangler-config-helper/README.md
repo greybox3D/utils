@@ -29,25 +29,6 @@ const configPath = configHelper.prepareEnvironmentConfig('staging');
 configHelper.cleanup();
 ```
 
-### Test Setup
-
-```typescript
-import { WranglerTestSetup } from '@greybox/wrangler-config-helper';
-
-const testSetup = new WranglerTestSetup<MyEnv>(
-  './wrangler.toml',
-  './src/worker.ts',
-  { environment: 'test' }
-);
-
-// Setup test environment
-const abortController = new AbortController();
-await testSetup.setup(abortController.signal);
-
-// Clean up
-await testSetup.cleanup();
-```
-
 ## API Documentation
 
 Full API documentation is available in the source code and type definitions.
