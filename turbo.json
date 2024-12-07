@@ -14,7 +14,6 @@
 			"cache": false
 		},
 		"publish-package": {
-			"cache": false,
 			"dependsOn": ["verify-npm-config-token"],
 			"env": ["NPM_CONFIG_TOKEN"]
 		},
