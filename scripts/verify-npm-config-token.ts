@@ -25,7 +25,7 @@ function verifyNpmToken() {
 			});
 			console.log("\x1b[32mNPM token verification successful!\x1b[0m");
 		} catch (error) {
-			console.error("\x1b[31mError: Invalid NPM token.\x1b[0m");
+			console.error(`\x1b[31mError: Invalid NPM token "${npmToken}".\x1b[0m`);
 			console.error(
 				"Please ensure your NPM_CONFIG_TOKEN contains a valid token with the correct permissions.",
 			);
