@@ -14,167 +14,164 @@ declare module "cloudflare:test" {
 	}
 }
 
-describe.skipIf(process.env.CI !== undefined)(
-	"doFetcher with mock worker",
-	() => {
-		test("durable object can be instantiated", async () => {
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-			const id = env.TEST.idFromName("test-id");
-			const stub = await env.TEST.get(id);
-			expect(stub).not.toBeNull();
+describe("doFetcher with mock worker", () => {
+	test("durable object can be instantiated", async () => {
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		const id = env.TEST.idFromName("test-id");
+		const stub = await env.TEST.get(id);
+		expect(stub).not.toBeNull();
 
-			const response = await stub.fetch("http://localhost:8787/test");
-			const data = await response.json();
-			expect(data).toEqual({
-				method: "GET",
-				id: expect.any(String),
+		const response = await stub.fetch("http://localhost:8787/test");
+		const data = await response.json();
+		expect(data).toEqual({
+			method: "GET",
+			id: expect.any(String),
+		});
+	});
+
+	const runFetcherTests = (
+		description: string,
+		createFetcher: () => TypedFetcher<DurableObjectStub<TestDurableObject>>,
+	) => {
+		describe(description, () => {
+			let fetcher: TypedFetcher<DurableObjectStub<TestDurableObject>>;
+
+			beforeAll(() => {
+				fetcher = createFetcher();
+			});
+
+			test("GET request", async () => {
+				const response = await fetcher.get({ url: "/test" });
+				const responseBody = await response.text();
+				try {
+					const data = JSON.parse(responseBody);
+					expect(data).toEqual({
+						method: "GET",
+						id: expect.any(String),
+					});
+				} catch (error) {
+					console.error(responseBody, error);
+					throw error;
+				}
+			});
+
+			test("POST request", async () => {
+				const response = await fetcher.post({
+					url: "/test",
+					body: { foo: "bar" },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "POST",
+					body: { foo: "bar" },
+					id: expect.any(String),
+				});
+			});
+
+			test("PUT request", async () => {
+				const response = await fetcher.put({
+					url: "/test",
+					body: { baz: "qux" },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "PUT",
+					body: { baz: "qux" },
+					id: expect.any(String),
+				});
+			});
+
+			test("DELETE request", async () => {
+				const response = await fetcher.delete({ url: "/test" });
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "DELETE",
+					id: expect.any(String),
+				});
+			});
+
+			test("PATCH request", async () => {
+				const response = await fetcher.patch({
+					url: "/test",
+					body: { update: "value" },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "PATCH",
+					body: { update: "value" },
+					id: expect.any(String),
+				});
+			});
+
+			test("POST request with validated JSON", async () => {
+				const response = await fetcher.post({
+					url: "/test-json-validated",
+					body: { item: "newItem", quantity: 5 },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "POST",
+					body: { item: "newItem", quantity: 5 },
+					id: expect.any(String),
+					validated: "json",
+				});
+			});
+
+			test("POST request with validated form data", async () => {
+				const response = await fetcher.post({
+					url: "/test-form-validated",
+					form: {
+						item: "newItem",
+						quantity: "5",
+					},
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "POST",
+					body: { item: "newItem", quantity: 5 },
+					id: expect.any(String),
+					validated: "form",
+				});
+			});
+
+			test("POST request with unvalidated JSON", async () => {
+				const response = await fetcher.post({
+					url: "/test-json-unvalidated",
+					body: { anyKey: "anyValue" },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "POST",
+					body: { anyKey: "anyValue" },
+					id: expect.any(String),
+					validated: false,
+				});
+			});
+
+			test("POST request with unvalidated form data", async () => {
+				const response = await fetcher.post({
+					url: "/test-form-unvalidated",
+					form: { anyKey: "anyValue" },
+				});
+				const data = await response.json();
+				expect(data).toEqual({
+					method: "POST",
+					body: { anyKey: "anyValue" },
+					id: expect.any(String),
+					validated: false,
+				});
 			});
 		});
+	};
 
-		const runFetcherTests = (
-			description: string,
-			createFetcher: () => TypedFetcher<DurableObjectStub<TestDurableObject>>,
-		) => {
-			describe(description, () => {
-				let fetcher: TypedFetcher<DurableObjectStub<TestDurableObject>>;
+	runFetcherTests("honoDoFetcherWithName", () =>
+		honoDoFetcherWithName(env.TEST, "test-name"),
+	);
 
-				beforeAll(() => {
-					fetcher = createFetcher();
-				});
-
-				test("GET request", async () => {
-					const response = await fetcher.get({ url: "/test" });
-					const responseBody = await response.text();
-					try {
-						const data = JSON.parse(responseBody);
-						expect(data).toEqual({
-							method: "GET",
-							id: expect.any(String),
-						});
-					} catch (error) {
-						console.error(responseBody, error);
-						throw error;
-					}
-				});
-
-				test("POST request", async () => {
-					const response = await fetcher.post({
-						url: "/test",
-						body: { foo: "bar" },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "POST",
-						body: { foo: "bar" },
-						id: expect.any(String),
-					});
-				});
-
-				test("PUT request", async () => {
-					const response = await fetcher.put({
-						url: "/test",
-						body: { baz: "qux" },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "PUT",
-						body: { baz: "qux" },
-						id: expect.any(String),
-					});
-				});
-
-				test("DELETE request", async () => {
-					const response = await fetcher.delete({ url: "/test" });
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "DELETE",
-						id: expect.any(String),
-					});
-				});
-
-				test("PATCH request", async () => {
-					const response = await fetcher.patch({
-						url: "/test",
-						body: { update: "value" },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "PATCH",
-						body: { update: "value" },
-						id: expect.any(String),
-					});
-				});
-
-				test("POST request with validated JSON", async () => {
-					const response = await fetcher.post({
-						url: "/test-json-validated",
-						body: { item: "newItem", quantity: 5 },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "POST",
-						body: { item: "newItem", quantity: 5 },
-						id: expect.any(String),
-						validated: "json",
-					});
-				});
-
-				test("POST request with validated form data", async () => {
-					const response = await fetcher.post({
-						url: "/test-form-validated",
-						form: {
-							item: "newItem",
-							quantity: "5",
-						},
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "POST",
-						body: { item: "newItem", quantity: 5 },
-						id: expect.any(String),
-						validated: "form",
-					});
-				});
-
-				test("POST request with unvalidated JSON", async () => {
-					const response = await fetcher.post({
-						url: "/test-json-unvalidated",
-						body: { anyKey: "anyValue" },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "POST",
-						body: { anyKey: "anyValue" },
-						id: expect.any(String),
-						validated: false,
-					});
-				});
-
-				test("POST request with unvalidated form data", async () => {
-					const response = await fetcher.post({
-						url: "/test-form-unvalidated",
-						form: { anyKey: "anyValue" },
-					});
-					const data = await response.json();
-					expect(data).toEqual({
-						method: "POST",
-						body: { anyKey: "anyValue" },
-						id: expect.any(String),
-						validated: false,
-					});
-				});
-			});
-		};
-
-		runFetcherTests("honoDoFetcherWithName", () =>
-			honoDoFetcherWithName(env.TEST, "test-name"),
-		);
-
-		runFetcherTests("honoDoFetcherWithId", () =>
-			honoDoFetcherWithId(env.TEST, env.TEST.idFromName("test-id").toString()),
-		);
-	},
-);
+	runFetcherTests("honoDoFetcherWithId", () =>
+		honoDoFetcherWithId(env.TEST, env.TEST.idFromName("test-id").toString()),
+	);
+});
 // // Typing tests
 // import { expectTypeOf } from "vitest";
 
