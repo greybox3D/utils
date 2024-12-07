@@ -6,7 +6,7 @@ import {
 } from "../../hono-typed-fetcher/src/honoDoFetcher";
 
 import { env } from "cloudflare:test";
-import type { TestDurableObject, TestEnv } from "./worker";
+import type { TestDurableObject } from "./worker";
 
 declare module "cloudflare:test" {
 	interface ProvidedEnv {
@@ -18,7 +18,7 @@ describe("doFetcher with mock worker", () => {
 	test("durable object can be instantiated", async () => {
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		const id = env.TEST.idFromName("test-id");
-		const stub = await env.TEST.get(id);
+		const stub = env.TEST.get(id);
 		expect(stub).not.toBeNull();
 
 		const response = await stub.fetch("http://localhost:8787/test");
