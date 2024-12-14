@@ -1,5 +1,11 @@
 # @greybox/biome-config
 
+## 1.3.0
+
+### Minor Changes
+
+- 6806630: Make dependencies peer deps
+
 ## 1.2.0
 
 ### Minor Changes

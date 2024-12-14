@@ -1,5 +1,12 @@
 # @greybox/wrangler-config-helper
 
+## 2.1.0
+
+### Minor Changes
+
+- 6806630: Make dependencies peer deps
+- 1f169ca: Update dependencies
+
 ## 2.0.1
 
 ### Patch Changes

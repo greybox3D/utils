@@ -1,5 +1,16 @@
 # @greybox/hono-typed-fetcher
 
+## 2.1.0
+
+### Minor Changes
+
+- 6806630: Make dependencies peer deps
+- 1f169ca: Update dependencies
+
+### Patch Changes
+
+- f713dd2: Update dependencies
+
 ## 2.0.1
 
 ### Patch Changes

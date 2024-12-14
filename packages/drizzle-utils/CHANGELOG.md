@@ -1,5 +1,15 @@
 # @greybox/drizzle-utils
 
+## 1.4.0
+
+### Minor Changes
+
+- 6806630: Make dependencies peer deps
+
+### Patch Changes
+
+- f713dd2: Update dependencies
+
 ## 1.3.1
 
 ### Patch Changes
