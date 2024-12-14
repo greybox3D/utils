@@ -17,10 +17,11 @@
 		"lint:fix": "biome check --write .",
 		"publish-package": "bun publish"
 	},
-	"dependencies": {
-		"drizzle-orm": "^0.37.0"
+	"peerDependencies": {
+		"drizzle-orm": "^0.38.2"
 	},
 	"devDependencies": {
+		"drizzle-orm": "^0.38.2",
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.10",
 		"@electric-sql/pglite": "^0.2.15",
@@ -32,9 +33,7 @@
 	"exports": {
 		"./*": "./src/*.ts"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

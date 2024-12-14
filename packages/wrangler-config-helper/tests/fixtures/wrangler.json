@@ -1,0 +1,16 @@
+{
+	"name": "test-worker",
+	"main": "src/index.ts",
+	"compatibility_date": "2023-01-01",
+	"vars": {
+		"TEST_VAR": "test-value"
+	},
+	"env": {
+		"staging": {
+			"name": "test-worker-staging",
+			"vars": {
+				"ENVIRONMENT": "staging"
+			}
+		}
+	}
+}
