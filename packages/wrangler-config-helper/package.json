@@ -14,7 +14,7 @@
 	},
 	"dependencies": {
 		"@iarna/toml": "^2.2.5",
-		"wrangler": "^3.93.0"
+		"wrangler": "^3.95.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
