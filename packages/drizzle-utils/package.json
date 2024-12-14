@@ -23,11 +23,11 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.10",
-		"@electric-sql/pglite": "^0.2.14",
+		"@electric-sql/pglite": "^0.2.15",
 		"@types/bun": "^1.1.14",
 		"benchmark": "^2.1.4",
 		"uuid": "^11.0.3",
-		"vitest": "2.1.5"
+		"vitest": "2.1.8"
 	},
 	"exports": {
 		"./*": "./src/*.ts"
