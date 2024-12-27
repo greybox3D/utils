@@ -19,8 +19,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@cloudflare/vitest-pool-workers": "^0.5.36",
-		"@cloudflare/workers-types": "^4.20241205.0",
+		"@cloudflare/vitest-pool-workers": "^0.5.40",
+		"@cloudflare/workers-types": "^4.20241224.0",
 		"@greybox/wrangler-config-helper": "workspace:*",
 		"@types/bun": "^1.1.14",
 		"vitest": "2.1.8"
