@@ -7,8 +7,6 @@
 	},
 	"type": "module",
 	"scripts": {
-		"test": "npx vitest --run --typecheck",
-		"test:watch": "npx vitest --typecheck",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write ."
 	},
@@ -22,12 +20,9 @@
 		"@cloudflare/vitest-pool-workers": "^0.5.40",
 		"@cloudflare/workers-types": "^4.20241224.0",
 		"@greybox/wrangler-config-helper": "workspace:*",
-		"@types/bun": "^1.1.14",
-		"vitest": "2.1.8"
+		"@types/bun": "^1.1.14"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

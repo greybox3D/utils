@@ -4,12 +4,6 @@
 		"lint": {
 			"cache": false
 		},
-		"test": {
-			"cache": false
-		},
-		"test:watch": {
-			"cache": false
-		},
 		"lint:fix": {
 			"cache": false
 		},

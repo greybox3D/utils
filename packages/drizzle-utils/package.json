@@ -10,8 +10,6 @@
 	},
 	"type": "module",
 	"scripts": {
-		"test": "bunx vitest --run",
-		"test:watch": "bunx vitest",
 		"benchmark": "bun ./benchmarks",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
@@ -27,15 +25,12 @@
 		"@types/bun": "^1.1.14",
 		"benchmark": "^2.1.4",
 		"drizzle-orm": "^0.38.3",
-		"uuid": "^11.0.3",
-		"vitest": "2.1.8"
+		"uuid": "^11.0.3"
 	},
 	"exports": {
 		"./*": "./src/*.ts"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

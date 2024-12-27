@@ -1,0 +1,34 @@
+{
+	"$schema": "../../../node_modules/wrangler/config-schema.json",
+	"name": "test-worker",
+	"main": "./worker.ts",
+	"workers_dev": true,
+	"compatibility_date": "2024-09-23",
+	"compatibility_flags": ["nodejs_compat"],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "TEST",
+				"class_name": "TestDurableObject"
+			}
+		]
+	},
+	"env": {
+		"local": {
+			"durable_objects": {
+				"bindings": [
+					{
+						"name": "TEST",
+						"class_name": "TestDurableObject"
+					}
+				]
+			}
+		}
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_classes": ["TestDurableObject"]
+		}
+	]
+}

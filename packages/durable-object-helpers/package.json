@@ -1,10 +1,11 @@
 {
-	"name": "@greybox/hono-typed-fetcher",
-	"version": "2.1.1",
+	"name": "@greybox/durable-object-helpers",
+	"version": "1.0.0",
 	"private": false,
+	"description": "A collection of utilities for working with Durable Objects",
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
-		"directory": "packages/hono-typed-fetcher"
+		"directory": "packages/durable-object-helpers"
 	},
 	"type": "module",
 	"scripts": {
@@ -12,24 +13,20 @@
 		"lint:fix": "biome check --write .",
 		"publish-package": "bun publish"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@greybox/hono-typed-fetcher": "workspace:*"
+	},
 	"peerDependencies": {
 		"hono": "^4.6.14"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.11",
-		"@cloudflare/workers-types": "^4.20241224.0",
-		"@greybox/wrangler-config-helper": "workspace:*",
-		"@hono/node-server": "^1.13.7",
-		"@hono/zod-validator": "^0.4.2",
 		"@types/bun": "^1.1.14",
-		"hono": "^4.6.14",
-		"ky": "^1.7.4",
-		"zod": "^3.24.1"
+		"hono": "^4.6.14"
 	},
 	"exports": {
-		".": "./src/honoFetcher.ts",
+		".": "./src/index.ts",
 		"./*": "./src/*.ts"
 	},
 	"files": ["src"],

@@ -10,9 +10,7 @@
 	"scripts": {
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
-		"publish-package": "bun publish",
-		"test": "vitest run",
-		"test:watch": "vitest"
+		"publish-package": "bun publish"
 	},
 	"dependencies": {
 		"@iarna/toml": "^2.2.5"
@@ -25,21 +23,13 @@
 		"@changesets/cli": "^2.27.11",
 		"@cloudflare/workers-types": "^4.20241224.0",
 		"@greybox/biome-config": "workspace:*",
-		"vitest": "^2.1.8",
 		"wrangler": "^3.99.0"
 	},
 	"exports": {
 		".": "./src/WranglerConfigHelper.ts"
 	},
-	"files": [
-		"src",
-		"tsconfig.json",
-		"README.md",
-		"LICENSE"
-	],
-	"trustedDependencies": [
-		"@biomejs/biome"
-	],
+	"files": ["src", "tsconfig.json", "README.md", "LICENSE"],
+	"trustedDependencies": ["@biomejs/biome"],
 	"publishConfig": {
 		"access": "public"
 	}

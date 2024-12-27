@@ -1,0 +1,8 @@
+{
+	"extends": "@greybox/shared-tsconfig/tsconfig.json",
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
+		"types": ["@cloudflare/workers-types"],
+		"baseUrl": "."
+	}
+}

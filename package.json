@@ -6,28 +6,28 @@
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git"
 	},
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": ["packages/*"],
 	"scripts": {
-		"test": "turbo test",
-		"test:watch": "turbo test --watch",
+		"test": "bunx vitest --run --typecheck",
+		"test:watch": "bunx vitest --typecheck",
 		"lint": "turbo lint",
 		"lint:fix": "turbo lint:fix",
 		"publish-package": "bun verify-npm-config-token &&dotenv -e .env -- bun turbo publish-package --parallel --continue",
 		"verify-npm-config-token": "dotenv -e .env -- bun ./scripts/verify-npm-config-token.ts",
-		"upgrade-deps": "bunx taze -Irwi"
+		"upgrade-deps": "bunx taze -Irwi",
+		"create-package": "bun ./scripts/create-package.ts"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.5.40",
+		"@types/handlebars": "^4.1.0",
+		"handlebars": "^4.7.8",
 		"turbo": "^2.3.3"
 	},
 	"packageManager": "bun@1.1.42",
-	"trustedDependencies": [
-		"@biomejs/biome"
-	],
+	"trustedDependencies": ["@biomejs/biome"],
 	"dependencies": {
 		"dotenv-cli": "^8.0.0"
 	}
