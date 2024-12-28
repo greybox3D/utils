@@ -1,9 +1,9 @@
 {
-	"name": "@greybox/hono-typed-fetcher-cf-tests",
+	"name": "@greybox/cf-tests",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
-		"directory": "packages/hono-typed-fetcher-cf-tests"
+		"directory": "packages/cf-tests"
 	},
 	"type": "module",
 	"scripts": {

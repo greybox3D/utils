@@ -1,4 +1,4 @@
-# @greybox/hono-typed-fetcher-cf-tests
+# @greybox/cf-tests
 
 Test suite for Cloudflare Durable Objects integration with @greybox/hono-typed-fetcher.
 

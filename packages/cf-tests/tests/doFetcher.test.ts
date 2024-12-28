@@ -6,19 +6,19 @@ import {
 } from "../../hono-typed-fetcher/src/honoDoFetcher";
 
 import { env } from "cloudflare:test";
-import type { TestDurableObject } from "./worker";
+import type { TestDO } from "./worker";
 
 declare module "cloudflare:test" {
 	interface ProvidedEnv {
-		TEST: DurableObjectNamespace<TestDurableObject>;
+		TEST_DO: DurableObjectNamespace<TestDO>;
 	}
 }
 
 describe("doFetcher with mock worker", () => {
 	test("durable object can be instantiated", async () => {
 		await new Promise((resolve) => setTimeout(resolve, 2000));
-		const id = env.TEST.idFromName("test-id");
-		const stub = env.TEST.get(id);
+		const id = env.TEST_DO.idFromName("test-id");
+		const stub = env.TEST_DO.get(id);
 		expect(stub).not.toBeNull();
 
 		const response = await stub.fetch("http://localhost:8787/test");
@@ -31,10 +31,10 @@ describe("doFetcher with mock worker", () => {
 
 	const runFetcherTests = (
 		description: string,
-		createFetcher: () => TypedFetcher<DurableObjectStub<TestDurableObject>>,
+		createFetcher: () => TypedFetcher<DurableObjectStub<TestDO>>,
 	) => {
 		describe(description, () => {
-			let fetcher: TypedFetcher<DurableObjectStub<TestDurableObject>>;
+			let fetcher: TypedFetcher<DurableObjectStub<TestDO>>;
 
 			beforeAll(() => {
 				fetcher = createFetcher();
@@ -165,18 +165,21 @@ describe("doFetcher with mock worker", () => {
 	};
 
 	runFetcherTests("honoDoFetcherWithName", () =>
-		honoDoFetcherWithName(env.TEST, "test-name"),
+		honoDoFetcherWithName(env.TEST_DO, "test-name"),
 	);
 
 	runFetcherTests("honoDoFetcherWithId", () =>
-		honoDoFetcherWithId(env.TEST, env.TEST.idFromName("test-id").toString()),
+		honoDoFetcherWithId(
+			env.TEST_DO,
+			env.TEST_DO.idFromName("test-id").toString(),
+		),
 	);
 });
 // // Typing tests
 // import { expectTypeOf } from "vitest";
 
 // describe("doFetcher type checks", () => {
-// 	const dummyNamespace = {} as DurableObjectNamespace<TestDurableObject>;
+// 	const dummyNamespace = {} as DurableObjectNamespace<TestDO>;
 // 	const fetcher = doFetcherWithName(dummyNamespace, "test-name");
 
 // 	test("GET request typing", () => {

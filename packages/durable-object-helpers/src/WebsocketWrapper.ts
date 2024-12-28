@@ -2,6 +2,7 @@ export class WebsocketWrapper<TAttachment, TMessage> {
 	public constructor(public webSocket: WebSocket) {}
 
 	public send(message: TMessage) {
+		if (this.webSocket.readyState !== WebSocket.OPEN) return;
 		this.webSocket.send(JSON.stringify(message));
 	}
 

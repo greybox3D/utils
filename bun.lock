@@ -20,6 +20,21 @@
         "@changesets/cli": "^2.27.11",
       },
     },
+    "packages/cf-tests": {
+      "name": "@greybox/cf-tests",
+      "dependencies": {
+        "@hono/zod-validator": "^0.4.2",
+        "hono": "^4.6.14",
+        "zod": "^3.24.1",
+      },
+      "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@cloudflare/vitest-pool-workers": "^0.5.40",
+        "@cloudflare/workers-types": "^4.20241224.0",
+        "@greybox/wrangler-config-helper": "packages/wrangler-config-helper",
+        "@types/bun": "^1.1.14",
+      },
+    },
     "packages/drizzle-utils": {
       "name": "@greybox/drizzle-utils",
       "version": "1.4.1",
@@ -38,7 +53,7 @@
     },
     "packages/durable-object-helpers": {
       "name": "@greybox/durable-object-helpers",
-      "version": "0.0.1",
+      "version": "1.1.0",
       "dependencies": {
         "@greybox/hono-typed-fetcher": "packages/hono-typed-fetcher",
       },
@@ -46,6 +61,10 @@
         "@biomejs/biome": "^1.9.4",
         "@changesets/cli": "^2.27.11",
         "@types/bun": "^1.1.14",
+        "hono": "^4.6.14",
+      },
+      "peerDependencies": {
+        "hono": "^4.6.14",
       },
     },
     "packages/hono-typed-fetcher": {
@@ -65,21 +84,6 @@
       },
       "peerDependencies": {
         "hono": "^4.6.14",
-      },
-    },
-    "packages/hono-typed-fetcher-cf-tests": {
-      "name": "@greybox/hono-typed-fetcher-cf-tests",
-      "dependencies": {
-        "@hono/zod-validator": "^0.4.2",
-        "hono": "^4.6.14",
-        "zod": "^3.24.1",
-      },
-      "devDependencies": {
-        "@biomejs/biome": "^1.9.4",
-        "@cloudflare/vitest-pool-workers": "^0.5.40",
-        "@cloudflare/workers-types": "^4.20241224.0",
-        "@greybox/wrangler-config-helper": "packages/wrangler-config-helper",
-        "@types/bun": "^1.1.14",
       },
     },
     "packages/shared-tsconfig": {
@@ -239,13 +243,13 @@
 
     "@greybox/biome-config": ["@greybox/biome-config@workspace:packages/biome-config", { "devDependencies": { "@biomejs/biome": "^1.9.4", "@changesets/cli": "^2.27.11" } }],
 
+    "@greybox/cf-tests": ["@greybox/cf-tests@workspace:packages/cf-tests", { "dependencies": { "@hono/zod-validator": "^0.4.2", "hono": "^4.6.14", "zod": "^3.24.1" }, "devDependencies": { "@biomejs/biome": "^1.9.4", "@cloudflare/vitest-pool-workers": "^0.5.40", "@cloudflare/workers-types": "^4.20241224.0", "@greybox/wrangler-config-helper": "packages/wrangler-config-helper", "@types/bun": "^1.1.14" } }],
+
     "@greybox/drizzle-utils": ["@greybox/drizzle-utils@workspace:packages/drizzle-utils", { "devDependencies": { "@biomejs/biome": "^1.9.4", "@changesets/cli": "^2.27.11", "@electric-sql/pglite": "^0.2.15", "@types/bun": "^1.1.14", "benchmark": "^2.1.4", "drizzle-orm": "^0.38.3", "uuid": "^11.0.3" }, "peerDependencies": { "drizzle-orm": "^0.38.2" } }],
 
-    "@greybox/durable-object-helpers": ["@greybox/durable-object-helpers@workspace:packages/durable-object-helpers", { "dependencies": { "@greybox/hono-typed-fetcher": "packages/hono-typed-fetcher" }, "devDependencies": { "@biomejs/biome": "^1.9.4", "@changesets/cli": "^2.27.11", "@types/bun": "^1.1.14" } }],
+    "@greybox/durable-object-helpers": ["@greybox/durable-object-helpers@workspace:packages/durable-object-helpers", { "dependencies": { "@greybox/hono-typed-fetcher": "packages/hono-typed-fetcher" }, "devDependencies": { "@biomejs/biome": "^1.9.4", "@changesets/cli": "^2.27.11", "@types/bun": "^1.1.14", "hono": "^4.6.14" }, "peerDependencies": { "hono": "^4.6.14" } }],
 
     "@greybox/hono-typed-fetcher": ["@greybox/hono-typed-fetcher@workspace:packages/hono-typed-fetcher", { "devDependencies": { "@biomejs/biome": "^1.9.4", "@changesets/cli": "^2.27.11", "@cloudflare/workers-types": "^4.20241224.0", "@greybox/wrangler-config-helper": "packages/wrangler-config-helper", "@hono/node-server": "^1.13.7", "@hono/zod-validator": "^0.4.2", "@types/bun": "^1.1.14", "hono": "^4.6.14", "ky": "^1.7.4", "zod": "^3.24.1" }, "peerDependencies": { "hono": "^4.6.14" } }],
-
-    "@greybox/hono-typed-fetcher-cf-tests": ["@greybox/hono-typed-fetcher-cf-tests@workspace:packages/hono-typed-fetcher-cf-tests", { "dependencies": { "@hono/zod-validator": "^0.4.2", "hono": "^4.6.14", "zod": "^3.24.1" }, "devDependencies": { "@biomejs/biome": "^1.9.4", "@cloudflare/vitest-pool-workers": "^0.5.40", "@cloudflare/workers-types": "^4.20241224.0", "@greybox/wrangler-config-helper": "packages/wrangler-config-helper", "@types/bun": "^1.1.14" } }],
 
     "@greybox/shared-tsconfig": ["@greybox/shared-tsconfig@workspace:packages/shared-tsconfig", { "devDependencies": { "@changesets/cli": "^2.27.11" } }],
 

@@ -8,8 +8,12 @@
 	"durable_objects": {
 		"bindings": [
 			{
-				"name": "TEST",
-				"class_name": "TestDurableObject"
+				"name": "TEST_DO",
+				"class_name": "TestDO"
+			},
+			{
+				"name": "WS_TEST_DO",
+				"class_name": "TestWebsocketDO"
 			}
 		]
 	},
@@ -18,8 +22,12 @@
 			"durable_objects": {
 				"bindings": [
 					{
-						"name": "TEST",
-						"class_name": "TestDurableObject"
+						"name": "TEST_DO",
+						"class_name": "TestDO"
+					},
+					{
+						"name": "WS_TEST_DO",
+						"class_name": "TestWebsocketDO"
 					}
 				]
 			}
@@ -28,7 +36,7 @@
 	"migrations": [
 		{
 			"tag": "v1",
-			"new_classes": ["TestDurableObject"]
+			"new_classes": ["TestDO", "TestWebsocketDO"]
 		}
 	]
 }

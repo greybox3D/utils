@@ -1,25 +1,100 @@
 import { DurableObject } from "cloudflare:workers";
+import { BaseSession } from "@greybox/durable-object-helpers/BaseSession";
+import { BaseWebSocketDO } from "@greybox/durable-object-helpers/BaseWebSocketDO";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
 import type { DOWithHonoApp } from "../../hono-typed-fetcher/src/honoDoFetcher";
 
+// Test implementations for BaseWebSocketDO
+interface TestParticipant {
+	id: string;
+}
+
+export type TestServerMessage =
+	| {
+			type: "welcome";
+			message: string;
+	  }
+	| {
+			type: "error";
+			error: string;
+	  };
+
+type TestClientMessage =
+	| {
+			type: "join";
+	  }
+	| {
+			type: "ping";
+	  };
+
+type SuperSession = BaseSession<
+	TestEnv,
+	TestParticipant,
+	TestServerMessage,
+	TestClientMessage
+>;
+
+class TestSession extends BaseSession<
+	TestEnv,
+	TestParticipant,
+	TestServerMessage,
+	TestClientMessage
+> {
+	protected createData: SuperSession["createData"] = (
+		_ctx,
+	): TestParticipant => ({
+		id: crypto.randomUUID(),
+	});
+
+	handleMessage: SuperSession["handleMessage"] = async (message) => {
+		switch (message.type) {
+			case "join": {
+				this.send({
+					type: "welcome",
+					message: "Welcome to the test session!",
+				});
+				break;
+			}
+			case "ping": {
+				this.send({
+					type: "welcome",
+					message: "pong",
+				});
+				break;
+			}
+		}
+	};
+
+	handleClose: SuperSession["handleClose"] = async () => {
+		// Nothing to do on close for test
+	};
+}
+
+export class TestWebsocketDO extends BaseWebSocketDO<TestEnv, TestSession> {
+	app = this.getBaseApp().get("/status", (c) => c.text("OK"));
+
+	protected createSession(websocket: WebSocket): TestSession {
+		return new TestSession(websocket, this.sessions);
+	}
+}
+
 export type TestEnv = {
-	TEST: DurableObjectNamespace<TestDurableObject>;
+	TEST_DO: DurableObjectNamespace<TestDO>;
+	WS_TEST_DO: DurableObjectNamespace<TestWebsocketDO>;
+	TEST_VALUE: string;
 };
 
 export type TestHonoEnv = {
 	Bindings: TestEnv;
 };
 
-export class TestDurableObject
-	extends DurableObject<TestEnv>
-	implements DOWithHonoApp
-{
+export class TestDO extends DurableObject<TestEnv> implements DOWithHonoApp {
 	constructor(ctx: DurableObjectState, env: TestEnv) {
 		super(ctx, env);
 
-		console.log("TestDurableObject constructor", ctx.id);
+		console.log("TestDO constructor", ctx.id);
 	}
 
 	app = new Hono<TestHonoEnv>()
@@ -108,7 +183,15 @@ const worker = new Hono<TestHonoEnv>()
 		console.log("all /test/:id/*", c.req.url);
 
 		const id = c.req.param("id");
-		const namespace = c.env.TEST;
+		const namespace = c.env.TEST_DO;
+		const stub = namespace.get(namespace.idFromString(id));
+		return stub.fetch(c.req.raw);
+	})
+	.all("/test-do/:id/*", async (c) => {
+		console.log("all /test-do/:id/*", c.req.url);
+
+		const id = c.req.param("id");
+		const namespace = c.env.TEST_DO;
 		const stub = namespace.get(namespace.idFromString(id));
 		return stub.fetch(c.req.raw);
 	})

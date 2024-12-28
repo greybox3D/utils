@@ -42,21 +42,21 @@ export abstract class BaseWebSocketDO<
 					return ctx.text("Expected websocket", 400);
 				}
 
-				const pair = new WebSocketPair();
+				const [client, server] = Object.values(new WebSocketPair());
 
 				try {
-					await this.handleSession(ctx, pair[1]);
-					return new Response(null, { status: 101, webSocket: pair[0] });
+					await this.handleSession(ctx, server);
+					return new Response(null, { status: 101, webSocket: client });
 				} catch (error) {
 					console.error(error);
-					pair[1].accept();
-					pair[1].send(
+					client.accept();
+					client.send(
 						JSON.stringify({
 							error: "Uncaught exception during session setup.",
 						}),
 					);
-					pair[1].close(1011, "Uncaught exception during session setup.");
-					return new Response(null, { status: 101, webSocket: pair[0] });
+					client.close(1011, "Uncaught exception during session setup.");
+					return new Response(null, { status: 101, webSocket: client });
 				}
 			},
 		);
