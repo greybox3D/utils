@@ -70,5 +70,6 @@ export abstract class BaseSession<
 	}
 
 	abstract handleMessage(message: TClientMessage): Promise<void>;
+	abstract handleBufferMessage(message: ArrayBuffer): Promise<void>;
 	abstract handleClose(): Promise<void>;
 }

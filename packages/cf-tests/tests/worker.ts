@@ -27,6 +27,14 @@ type TestClientMessage =
 	  }
 	| {
 			type: "ping";
+	  }
+	| {
+			type: "broadcast";
+			message: string;
+	  }
+	| {
+			type: "broadcast-exclude-self";
+			message: string;
 	  };
 
 type SuperSession = BaseSession<
@@ -64,6 +72,54 @@ class TestSession extends BaseSession<
 				});
 				break;
 			}
+			case "broadcast": {
+				this.broadcast(
+					{
+						type: "welcome",
+						message: `Broadcast: ${message.message}`,
+					},
+					false,
+				);
+				break;
+			}
+			case "broadcast-exclude-self": {
+				this.broadcast(
+					{
+						type: "welcome",
+						message: `Broadcast (excluding self): ${message.message}`,
+					},
+					true,
+				);
+				break;
+			}
+		}
+	};
+
+	handleBufferMessage: SuperSession["handleBufferMessage"] = async (buffer) => {
+		if (buffer.byteLength === 0) {
+			this.send({
+				type: "welcome",
+				message: "Received empty buffer",
+			});
+			return;
+		}
+
+		const view = new Int32Array(buffer);
+
+		if (view.length <= 4) {
+			// For small buffers, show all values
+			const values = Array.from(view).join(", ");
+			this.send({
+				type: "welcome",
+				message: `Received buffer with values: ${values}`,
+			});
+		} else {
+			// For large buffers, show length and first 10 values
+			const first10 = Array.from(view.slice(0, 10)).join(", ");
+			this.send({
+				type: "welcome",
+				message: `Received large buffer (${view.length} values), first 10 values: ${first10}`,
+			});
 		}
 	};
 

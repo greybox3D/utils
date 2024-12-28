@@ -89,16 +89,12 @@ export abstract class BaseWebSocketDO<
 		if (!session) return;
 
 		try {
-			let messageString: string;
 			if (message instanceof ArrayBuffer) {
-				messageString = textDecoder.decode(message);
-			} else {
-				messageString = message;
+				await session.handleBufferMessage(message);
+				return;
 			}
 
-			const parsed = JSON.parse(
-				messageString,
-			) as SessionClientMessage<TSession>;
+			const parsed = JSON.parse(message) as SessionClientMessage<TSession>;
 			await session.handleMessage(parsed);
 		} catch (error) {
 			console.error(`Error during session message: ${error}`);
