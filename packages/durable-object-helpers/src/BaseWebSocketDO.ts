@@ -20,9 +20,14 @@ export abstract class BaseWebSocketDO<
 		this.ctx.blockConcurrencyWhile(async () => {
 			const websockets = this.ctx.getWebSockets();
 			for (const websocket of websockets) {
-				const session = this.createSession(websocket);
-				session.resume();
-				this.sessions.set(websocket, session);
+				try {
+					const session = this.createSession(websocket);
+					session.resume();
+					this.sessions.set(websocket, session);
+				} catch (error) {
+					console.error(`Error during session setup: ${error}`);
+					await this.webSocketError(websocket, error);
+				}
 			}
 		});
 	}
@@ -66,9 +71,14 @@ export abstract class BaseWebSocketDO<
 		ws: WebSocket,
 	): Promise<void> {
 		this.ctx.acceptWebSocket(ws);
-		const session = this.createSession(ws);
-		session.startFresh(ctx);
-		this.sessions.set(ws, session);
+		try {
+			const session = this.createSession(ws);
+			session.startFresh(ctx);
+			this.sessions.set(ws, session);
+		} catch (error) {
+			console.error(`Error during session setup: ${error}`);
+			this.webSocketError(ws, error);
+		}
 	}
 
 	override async webSocketMessage(
@@ -78,22 +88,32 @@ export abstract class BaseWebSocketDO<
 		const session = this.sessions.get(ws);
 		if (!session) return;
 
-		let messageString: string;
-		if (message instanceof ArrayBuffer) {
-			messageString = textDecoder.decode(message);
-		} else {
-			messageString = message;
-		}
+		try {
+			let messageString: string;
+			if (message instanceof ArrayBuffer) {
+				messageString = textDecoder.decode(message);
+			} else {
+				messageString = message;
+			}
 
-		const parsed = JSON.parse(messageString) as SessionClientMessage<TSession>;
-		await session.handleMessage(parsed);
+			const parsed = JSON.parse(
+				messageString,
+			) as SessionClientMessage<TSession>;
+			await session.handleMessage(parsed);
+		} catch (error) {
+			console.error(`Error during session message: ${error}`);
+		}
 	}
 
 	override async webSocketClose(ws: WebSocket) {
 		const session = this.sessions.get(ws);
 		if (!session) return;
 
-		await this.#handleClose(session);
+		try {
+			await this.#handleClose(session);
+		} catch (error) {
+			console.error(`Error during session close: ${error}`);
+		}
 	}
 
 	override async webSocketError(ws: WebSocket, error: unknown) {
@@ -104,13 +124,23 @@ export abstract class BaseWebSocketDO<
 		}
 
 		console.error(`Error for session: ${error}`);
-		await this.#handleClose(session);
-		ws.close(1011, "Error during session.");
+		try {
+			await this.#handleClose(session);
+		} catch (error) {
+			console.error(`Error during session close: ${error}`);
+		} finally {
+			ws.close(1011, "Error during session.");
+		}
 	}
 
 	async #handleClose(session: TSession) {
-		await session.handleClose();
-		this.sessions.delete(session.websocket);
+		try {
+			await session.handleClose();
+		} catch (error) {
+			console.error(`Error during session close: ${error}`);
+		} finally {
+			this.sessions.delete(session.websocket);
+		}
 	}
 
 	override fetch(request: Request): Response | Promise<Response> {

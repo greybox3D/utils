@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/durable-object-helpers",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": false,
 	"description": "A collection of utilities for working with Durable Objects",
 	"repository": {
@@ -28,7 +28,9 @@
 	"exports": {
 		"./*": "./src/*.ts"
 	},
-	"files": ["src"],
+	"files": [
+		"src"
+	],
 	"publishConfig": {
 		"access": "public"
 	}
