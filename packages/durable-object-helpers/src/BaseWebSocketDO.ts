@@ -19,16 +19,18 @@ export abstract class BaseWebSocketDO<
 
 		this.ctx.blockConcurrencyWhile(async () => {
 			const websockets = this.ctx.getWebSockets();
-			for (const websocket of websockets) {
-				try {
-					const session = this.createSession(websocket);
-					session.resume();
-					this.sessions.set(websocket, session);
-				} catch (error) {
-					console.error(`Error during session setup: ${error}`);
-					await this.webSocketError(websocket, error);
-				}
-			}
+			await Promise.all(
+				websockets.map(async (websocket) => {
+					try {
+						const session = await this.createSession(websocket);
+						session.resume();
+						this.sessions.set(websocket, session);
+					} catch (error) {
+						console.error(`Error during session setup: ${error}`);
+						await this.webSocketError(websocket, error);
+					}
+				}),
+			);
 		});
 	}
 
@@ -64,7 +66,9 @@ export abstract class BaseWebSocketDO<
 
 	abstract app: Hono<{ Bindings: TEnv }>;
 
-	protected abstract createSession(websocket: WebSocket): TSession;
+	protected abstract createSession(
+		websocket: WebSocket,
+	): TSession | Promise<TSession>;
 
 	async handleSession(
 		ctx: Context<{ Bindings: TEnv }>,
@@ -72,12 +76,12 @@ export abstract class BaseWebSocketDO<
 	): Promise<void> {
 		this.ctx.acceptWebSocket(ws);
 		try {
-			const session = this.createSession(ws);
+			const session = await this.createSession(ws);
 			session.startFresh(ctx);
 			this.sessions.set(ws, session);
 		} catch (error) {
 			console.error(`Error during session setup: ${error}`);
-			this.webSocketError(ws, error);
+			await this.webSocketError(ws, error);
 		}
 	}
 

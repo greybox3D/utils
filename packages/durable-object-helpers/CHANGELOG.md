@@ -1,5 +1,15 @@
 # @greybox/durable-object-helpers
 
+## 2.1.0
+
+### Minor Changes
+
+- Refactor WebSocket session handling for improved concurrency and error management
+
+  - Updated the session creation process in BaseWebSocketDO to utilize Promise.all for concurrent handling of multiple WebSocket sessions.
+  - Modified the createSession method to return a Promise, allowing for asynchronous session initialization.
+  - Enhanced error handling during session setup to ensure proper logging and error management across WebSocket connections.
+
 ## 2.0.0
 
 ### Major Changes

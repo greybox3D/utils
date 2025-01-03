@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/durable-object-helpers",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"private": false,
 	"description": "A collection of utilities for working with Durable Objects",
 	"repository": {
