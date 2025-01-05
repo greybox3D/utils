@@ -1,5 +1,11 @@
 # @greybox/drizzle-utils
 
+## 1.4.2
+
+### Patch Changes
+
+- Update dependencies
+
 ## 1.4.1
 
 ### Patch Changes

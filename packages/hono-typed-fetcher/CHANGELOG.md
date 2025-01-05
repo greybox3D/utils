@@ -1,5 +1,11 @@
 # @greybox/hono-typed-fetcher
 
+## 2.1.2
+
+### Patch Changes
+
+- Update dependencies
+
 ## 2.1.1
 
 ### Patch Changes

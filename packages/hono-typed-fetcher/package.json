@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/hono-typed-fetcher",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
@@ -14,17 +14,17 @@
 	},
 	"dependencies": {},
 	"peerDependencies": {
-		"hono": "^4.6.14"
+		"hono": "^4.6.16"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.11",
-		"@cloudflare/workers-types": "^4.20241224.0",
+		"@cloudflare/workers-types": "^4.20241230.0",
 		"@greybox/wrangler-config-helper": "workspace:*",
 		"@hono/node-server": "^1.13.7",
 		"@hono/zod-validator": "^0.4.2",
 		"@types/bun": "^1.1.14",
-		"hono": "^4.6.14",
+		"hono": "^4.6.16",
 		"ky": "^1.7.4",
 		"zod": "^3.24.1"
 	},
@@ -32,7 +32,9 @@
 		".": "./src/honoFetcher.ts",
 		"./*": "./src/*.ts"
 	},
-	"files": ["src"],
+	"files": [
+		"src"
+	],
 	"publishConfig": {
 		"access": "public"
 	}

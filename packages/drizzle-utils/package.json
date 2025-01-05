@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@greybox/drizzle-utils",
-	"version": "1.4.1",
+	"version": "1.4.2",
 	"private": false,
 	"license": "MIT",
 	"repository": {
@@ -16,7 +16,7 @@
 		"publish-package": "bun publish"
 	},
 	"peerDependencies": {
-		"drizzle-orm": "^0.38.2"
+		"drizzle-orm": "^0.38.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
@@ -25,12 +25,14 @@
 		"@types/bun": "^1.1.14",
 		"benchmark": "^2.1.4",
 		"drizzle-orm": "^0.38.3",
-		"uuid": "^11.0.3"
+		"uuid": "^11.0.4"
 	},
 	"exports": {
 		"./*": "./src/*.ts"
 	},
-	"files": ["src"],
+	"files": [
+		"src"
+	],
 	"publishConfig": {
 		"access": "public"
 	}

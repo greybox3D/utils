@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/wrangler-config-helper",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"private": false,
 	"type": "module",
 	"repository": {
@@ -21,15 +21,22 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.27.11",
-		"@cloudflare/workers-types": "^4.20241224.0",
+		"@cloudflare/workers-types": "^4.20241230.0",
 		"@greybox/biome-config": "workspace:*",
 		"wrangler": "^3.99.0"
 	},
 	"exports": {
 		".": "./src/WranglerConfigHelper.ts"
 	},
-	"files": ["src", "tsconfig.json", "README.md", "LICENSE"],
-	"trustedDependencies": ["@biomejs/biome"],
+	"files": [
+		"src",
+		"tsconfig.json",
+		"README.md",
+		"LICENSE"
+	],
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
 	"publishConfig": {
 		"access": "public"
 	}
