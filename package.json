@@ -23,12 +23,12 @@
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.5.40",
+		"@cloudflare/vitest-pool-workers": "^0.6.12",
 		"@types/handlebars": "^4.1.0",
 		"handlebars": "^4.7.8",
-		"turbo": "^2.3.3"
+		"turbo": "^2.4.0"
 	},
-	"packageManager": "bun@1.1.42",
+	"packageManager": "bun@1.2.2",
 	"trustedDependencies": [
 		"@biomejs/biome"
 	],

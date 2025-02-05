@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/durable-object-helpers",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"private": false,
 	"description": "A collection of utilities for working with Durable Objects",
 	"repository": {
@@ -17,20 +17,18 @@
 		"@greybox/hono-typed-fetcher": "workspace:*"
 	},
 	"peerDependencies": {
-		"hono": "^4.6.16"
+		"hono": "^4.6.20"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.27.11",
-		"@types/bun": "^1.1.14",
-		"hono": "^4.6.16"
+		"@changesets/cli": "^2.27.12",
+		"@types/bun": "^1.2.2",
+		"hono": "^4.6.20"
 	},
 	"exports": {
 		"./*": "./src/*.ts"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}
