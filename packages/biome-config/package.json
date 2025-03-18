@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/biome-config",
-	"version": "1.4.0",
+	"version": "2.0.0",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",

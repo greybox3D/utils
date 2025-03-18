@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/wrangler-config-helper",
-	"version": "2.2.0",
+	"version": "3.0.0",
 	"private": false,
 	"type": "module",
 	"repository": {
@@ -28,8 +28,15 @@
 	"exports": {
 		".": "./src/WranglerConfigHelper.ts"
 	},
-	"files": ["src", "tsconfig.json", "README.md", "LICENSE"],
-	"trustedDependencies": ["@biomejs/biome"],
+	"files": [
+		"src",
+		"tsconfig.json",
+		"README.md",
+		"LICENSE"
+	],
+	"trustedDependencies": [
+		"@biomejs/biome"
+	],
 	"publishConfig": {
 		"access": "public"
 	}

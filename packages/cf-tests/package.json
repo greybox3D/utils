@@ -22,7 +22,9 @@
 		"@greybox/wrangler-config-helper": "workspace:*",
 		"@types/bun": "^1.2.5"
 	},
-	"files": ["src"],
+	"files": [
+		"src"
+	],
 	"publishConfig": {
 		"access": "public"
 	}
