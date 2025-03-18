@@ -7,24 +7,22 @@
 	},
 	"type": "module",
 	"scripts": {
-		"lint": "biome check .",
+		"lint": "tsc --noEmit && biome check --write .",
 		"lint:fix": "biome check --write ."
 	},
 	"dependencies": {
-		"@hono/zod-validator": "^0.4.2",
-		"hono": "^4.6.20",
-		"zod": "^3.24.1"
+		"@hono/zod-validator": "^0.4.3",
+		"hono": "^4.7.4",
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@cloudflare/vitest-pool-workers": "^0.6.12",
-		"@cloudflare/workers-types": "^4.20250204.0",
+		"@cloudflare/vitest-pool-workers": "^0.8.1",
+		"@cloudflare/workers-types": "^4.20250317.0",
 		"@greybox/wrangler-config-helper": "workspace:*",
-		"@types/bun": "^1.2.2"
+		"@types/bun": "^1.2.5"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}

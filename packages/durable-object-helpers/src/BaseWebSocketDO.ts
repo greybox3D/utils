@@ -102,10 +102,17 @@ export abstract class BaseWebSocketDO<
 			await session.handleMessage(parsed);
 		} catch (error) {
 			console.error(`Error during session message: ${error}`);
+			// Let the implementer decide how to handle errors in their session implementation
+			// The session can optionally implement error handling that closes the connection if needed
 		}
 	}
 
-	override async webSocketClose(ws: WebSocket) {
+	override async webSocketClose(
+		ws: WebSocket,
+		_code: number,
+		_reason: string,
+		_wasClean: boolean,
+	) {
 		const session = this.sessions.get(ws);
 		if (!session) return;
 
@@ -113,13 +120,28 @@ export abstract class BaseWebSocketDO<
 			await this.#handleClose(session);
 		} catch (error) {
 			console.error(`Error during session close: ${error}`);
+		} finally {
+			// Call close() for both OPEN and CLOSING states
+			// For CLOSING, this can help ensure the WebSocket fully transitions to CLOSED
+			if (
+				ws.readyState === WebSocket.OPEN ||
+				ws.readyState === WebSocket.CLOSING
+			) {
+				ws.close(1000, "Normal closure");
+			}
 		}
 	}
 
 	override async webSocketError(ws: WebSocket, error: unknown) {
 		const session = this.sessions.get(ws);
 		if (!session) {
-			ws.close(1011, "Error during session setup.");
+			// Call close() for both OPEN and CLOSING states
+			if (
+				ws.readyState === WebSocket.OPEN ||
+				ws.readyState === WebSocket.CLOSING
+			) {
+				ws.close(1011, "Error during session setup.");
+			}
 			return;
 		}
 
@@ -129,7 +151,13 @@ export abstract class BaseWebSocketDO<
 		} catch (error) {
 			console.error(`Error during session close: ${error}`);
 		} finally {
-			ws.close(1011, "Error during session.");
+			// Call close() for both OPEN and CLOSING states
+			if (
+				ws.readyState === WebSocket.OPEN ||
+				ws.readyState === WebSocket.CLOSING
+			) {
+				ws.close(1011, "Error during session.");
+			}
 		}
 	}
 

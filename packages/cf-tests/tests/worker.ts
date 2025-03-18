@@ -1,10 +1,10 @@
 import { DurableObject } from "cloudflare:workers";
 import { BaseSession } from "@greybox/durable-object-helpers/BaseSession";
 import { BaseWebSocketDO } from "@greybox/durable-object-helpers/BaseWebSocketDO";
+import type { DOWithHonoApp } from "@greybox/hono-typed-fetcher/honoDoFetcher";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
-import type { DOWithHonoApp } from "../../hono-typed-fetcher/src/honoDoFetcher";
 
 // Test implementations for BaseWebSocketDO
 interface TestParticipant {
@@ -35,6 +35,12 @@ type TestClientMessage =
 	| {
 			type: "broadcast-exclude-self";
 			message: string;
+	  }
+	| {
+			type: "server-close";
+	  }
+	| {
+			type: "error-trigger";
 	  };
 
 type SuperSession = BaseSession<
@@ -92,6 +98,29 @@ class TestSession extends BaseSession<
 				);
 				break;
 			}
+			case "server-close": {
+				this.send({
+					type: "welcome",
+					message: "Server is closing this connection",
+				});
+				// Close the WebSocket connection from the server side
+				this.websocket.close(1000, "Closed by server");
+				break;
+			}
+			case "error-trigger": {
+				// First send an error message to the client
+				this.send({
+					type: "error",
+					error: "Error triggered by client request",
+				});
+
+				// Then we simulate an error by throwing an exception
+				// This will be caught by the base class but won't close the connection
+				throw new Error("Simulated error for testing error handling");
+
+				// In a real implementation, we might choose to close the connection on certain errors
+				// this.websocket.close(1011, "Error occurred");
+			}
 		}
 	};
 
@@ -124,7 +153,20 @@ class TestSession extends BaseSession<
 	};
 
 	handleClose: SuperSession["handleClose"] = async () => {
-		// Nothing to do on close for test
+		// Notify other sessions when one is closed, but only if there are other sessions
+		// Get all sessions except this one
+		const otherSessions = [...this.sessions.values()].filter((s) => s !== this);
+
+		// Only broadcast if there are other sessions
+		if (otherSessions.length > 0) {
+			this.broadcast(
+				{
+					type: "welcome",
+					message: `A session closed (id: ${this.data.id})`,
+				},
+				true,
+			);
+		}
 	};
 }
 

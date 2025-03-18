@@ -256,18 +256,64 @@ describe("BaseWebSocketDO", () => {
 		ws1.close();
 		await new Promise((resolve) => setTimeout(resolve, 100));
 
+		// Clear any messages that might have been sent during closure
+		messages2 = [];
+
 		ws2.send(
 			JSON.stringify({ type: "broadcast", message: "After disconnect!" }),
 		);
 		await new Promise((resolve) => setTimeout(resolve, 100));
 
 		// Only the remaining client should receive this message
-		expect(messages2[3]).toEqual({
+		expect(messages2[0]).toEqual({
 			type: "welcome",
 			message: "Broadcast: After disconnect!",
 		});
 		expect(messages1.length).toBe(3); // First client should not receive any more messages
 	});
+
+	// Helper function to check if a WebSocket is effectively closed
+	function isEffectivelyClosed(ws: WebSocket): boolean {
+		return (
+			ws.readyState === WebSocket.CLOSING || ws.readyState === WebSocket.CLOSED
+		);
+	}
+
+	// Helper function to wait for a WebSocket to fully close, with timeout
+	async function waitForClose(
+		ws: WebSocket,
+		timeoutMs = 5000,
+	): Promise<boolean> {
+		if (ws.readyState === WebSocket.CLOSED) return true;
+
+		return new Promise<boolean>((resolve) => {
+			const closeListener = () => {
+				cleanup();
+				resolve(true);
+			};
+
+			// Set up timeout
+			const timeoutId = setTimeout(() => {
+				cleanup();
+				resolve(false);
+			}, timeoutMs);
+
+			// Clean up function to remove listeners
+			const cleanup = () => {
+				ws.removeEventListener("close", closeListener);
+				clearTimeout(timeoutId);
+			};
+
+			// Add close listener
+			ws.addEventListener("close", closeListener);
+
+			// Handle case where WebSocket is already closed
+			if (ws.readyState === WebSocket.CLOSED) {
+				cleanup();
+				resolve(true);
+			}
+		});
+	}
 
 	it("should handle broadcasts with self-exclusion", async () => {
 		// Setup first WebSocket
@@ -347,5 +393,153 @@ describe("BaseWebSocketDO", () => {
 			type: "welcome",
 			message: "Broadcast: Regular broadcast",
 		});
+	});
+
+	it("should properly close WebSocket connections", async () => {
+		// Setup WebSocket
+		const response = await stub.fetch("http://localhost/websocket", {
+			headers: { upgrade: "websocket" },
+		});
+		ws1 = await setupWebSocket(response);
+
+		// Send join message to establish the session
+		ws1.send(JSON.stringify({ type: "join" }));
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		// Verify connection is open
+		expect(ws1.readyState).toBe(WebSocket.OPEN);
+
+		// Close the WebSocket from the client side
+		ws1.close(1000, "Normal client closure");
+
+		// Wait for a moment to allow close processing
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		// Verify WebSocket is closing or closed
+		expect(isEffectivelyClosed(ws1)).toBe(true);
+
+		// Sending a message after close should fail
+		try {
+			ws1.send(JSON.stringify({ type: "ping" }));
+			// If we get here, the test should fail
+			expect(true).toBe(false);
+		} catch (error) {
+			expect(error).toBeDefined();
+			expect(error).toBeInstanceOf(Error);
+		}
+	});
+
+	it("should handle server-initiated WebSocket closure", async () => {
+		// Setup WebSocket
+		const response = await stub.fetch("http://localhost/websocket", {
+			headers: { upgrade: "websocket" },
+		});
+		ws1 = await setupWebSocket(response);
+
+		let closeCode = 0;
+		let closeReason = "";
+
+		ws1.addEventListener("close", (event) => {
+			closeCode = event.code;
+			closeReason = event.reason;
+		});
+
+		// Verify connection is open
+		expect(ws1.readyState).toBe(WebSocket.OPEN);
+
+		// Send a message that triggers server-side close
+		ws1.send(JSON.stringify({ type: "server-close" }));
+
+		// Wait for a moment to allow close processing
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		// Verify the WebSocket is closing or closed
+		expect(isEffectivelyClosed(ws1)).toBe(true);
+
+		// If a close event fired, verify the code and reason
+		if (closeCode !== 0) {
+			expect(closeCode).toBe(1000);
+			expect(closeReason).toBe("Closed by server");
+		}
+	});
+
+	it("should handle WebSockets that are already closing", async () => {
+		// Setup WebSocket
+		const response = await stub.fetch("http://localhost/websocket", {
+			headers: { upgrade: "websocket" },
+		});
+		ws1 = await setupWebSocket(response);
+
+		// First, send a join message
+		ws1.send(JSON.stringify({ type: "join" }));
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		// Initiate client-side closing
+		ws1.close(1000, "Client initiated close");
+
+		// Try to send another message right after closing
+		// This should fail with an error
+		try {
+			ws1.send(JSON.stringify({ type: "ping" }));
+			// If we get here, the test should fail
+			expect(true).toBe(false);
+		} catch (error) {
+			// This is expected behavior
+			expect(error).toBeDefined();
+		}
+
+		// Wait for a moment to allow close processing
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		// Verify the WebSocket is closing or closed
+		expect(isEffectivelyClosed(ws1)).toBe(true);
+	});
+
+	it("should handle errors on WebSockets properly", async () => {
+		// Setup WebSocket
+		const response = await stub.fetch("http://localhost/websocket", {
+			headers: { upgrade: "websocket" },
+		});
+		ws1 = await setupWebSocket(response);
+
+		interface ResponseMessage {
+			type: string;
+			[key: string]: unknown;
+		}
+
+		const receivedMessages: ResponseMessage[] = [];
+		ws1.addEventListener("message", (event) => {
+			receivedMessages.push(JSON.parse(event.data.toString()));
+		});
+
+		// First, send a join message to establish the session
+		ws1.send(JSON.stringify({ type: "join" }));
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		// Verify connection is open
+		expect(ws1.readyState).toBe(WebSocket.OPEN);
+
+		// Send a message that triggers an error on the server
+		ws1.send(JSON.stringify({ type: "error-trigger" }));
+
+		// Wait for error handling to complete and message to be received
+		await new Promise((resolve) => setTimeout(resolve, 150));
+
+		// We should receive an error message from the server
+		expect(receivedMessages.some((msg) => msg.type === "error")).toBe(true);
+
+		// The WebSocket should remain open despite the error
+		expect(ws1.readyState).toBe(WebSocket.OPEN);
+
+		// We should be able to continue sending messages
+		ws1.send(JSON.stringify({ type: "ping" }));
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		// And we should receive a response
+		expect(
+			receivedMessages.some(
+				(msg) => msg.type === "welcome" && msg.message === "pong",
+			),
+		).toBe(true);
 	});
 });
