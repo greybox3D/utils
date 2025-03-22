@@ -121,6 +121,10 @@ export const batchUpdate = async <
 	});
 };
 
+const safe = <T extends unknown | undefined>(value: T) => {
+	return value as Exclude<T, undefined>;
+};
+
 // Original batch update logic moved to a separate function
 const generateBatchUpdate = <
 	TColumn extends PgColumn,
@@ -133,7 +137,7 @@ const generateBatchUpdate = <
 	}[],
 ) => {
 	if (tasks.length === 0) return;
-	const firstTask = tasks[0];
+	const firstTask = safe(tasks[0]);
 	const updateKeys = Object.keys(
 		firstTask.update,
 	).sort() as (keyof PgUpdateSetSource<T>)[];

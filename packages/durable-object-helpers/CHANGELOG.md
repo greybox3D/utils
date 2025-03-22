@@ -1,5 +1,11 @@
 # @greybox/durable-object-helpers
 
+## 3.0.1
+
+### Patch Changes
+
+- Improve type safety
+
 ## 3.0.0
 
 ### Major Changes

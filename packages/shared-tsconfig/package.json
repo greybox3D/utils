@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/shared-tsconfig",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",

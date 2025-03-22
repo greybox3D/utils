@@ -1,5 +1,11 @@
 # @greybox/shared-tsconfig
 
+## 2.0.1
+
+### Patch Changes
+
+- Improve type safety
+
 ## 2.0.0
 
 ### Major Changes

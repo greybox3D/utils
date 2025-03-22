@@ -16,6 +16,16 @@
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noImplicitAny": true,
-		"noEmit": true
+		"noEmit": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"exactOptionalPropertyTypes": false
 	}
 }

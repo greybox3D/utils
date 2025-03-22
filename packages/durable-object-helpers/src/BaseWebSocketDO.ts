@@ -44,7 +44,10 @@ export abstract class BaseWebSocketDO<
 					return ctx.text("Expected websocket", 400);
 				}
 
-				const [client, server] = Object.values(new WebSocketPair());
+				const [client, server] = Object.values(new WebSocketPair()) as [
+					WebSocket,
+					WebSocket,
+				];
 
 				try {
 					await this.handleSession(ctx, server);
