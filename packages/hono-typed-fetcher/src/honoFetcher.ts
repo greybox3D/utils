@@ -146,8 +146,8 @@ const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 		try {
 			return await fetcher(finalUrl, {
 				method: method.toUpperCase(),
-				body: body ? (body as BodyInit) : undefined,
 				headers: newHeaders,
+				...(body ? { body: body as BodyInit } : {}),
 				...init,
 			});
 		} catch (error) {

@@ -1,5 +1,11 @@
 # @greybox/shared-tsconfig
 
+## 2.0.2
+
+### Patch Changes
+
+- Improve typings again
+
 ## 2.0.1
 
 ### Patch Changes
