@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/wrangler-config-helper",
-	"version": "3.0.0",
+	"version": "3.1.2",
 	"private": false,
 	"type": "module",
 	"repository": {

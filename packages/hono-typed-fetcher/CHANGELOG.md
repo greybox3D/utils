@@ -1,5 +1,23 @@
 # @greybox/hono-typed-fetcher
 
+## 3.1.2
+
+### Patch Changes
+
+- Another version bump
+
+## 3.1.1
+
+### Patch Changes
+
+- Fix up versioning?
+
+## 3.1.0
+
+### Minor Changes
+
+- Trying to bump with publish
+
 ## 3.0.3
 
 ### Patch Changes

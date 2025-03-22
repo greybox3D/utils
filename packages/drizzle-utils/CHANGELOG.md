@@ -1,5 +1,23 @@
 # @greybox/drizzle-utils
 
+## 2.1.2
+
+### Patch Changes
+
+- Another version bump
+
+## 2.1.1
+
+### Patch Changes
+
+- Fix up versioning?
+
+## 2.1.0
+
+### Minor Changes
+
+- Trying to bump with publish
+
 ## 2.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/cf-tests",
-	"private": false,
+	"private": true,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
 		"directory": "packages/cf-tests"
@@ -24,8 +24,5 @@
 	},
 	"files": [
 		"src"
-	],
-	"publishConfig": {
-		"access": "public"
-	}
+	]
 }

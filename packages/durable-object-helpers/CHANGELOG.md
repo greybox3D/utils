@@ -1,5 +1,32 @@
 # @greybox/durable-object-helpers
 
+## 3.1.2
+
+### Patch Changes
+
+- Another version bump
+- Updated dependencies
+  - @greybox/hono-typed-fetcher@3.1.2
+
+## 3.1.1
+
+### Patch Changes
+
+- Fix up versioning?
+- Updated dependencies
+  - @greybox/hono-typed-fetcher@3.1.1
+
+## 3.1.0
+
+### Minor Changes
+
+- Trying to bump with publish
+
+### Patch Changes
+
+- Updated dependencies
+  - @greybox/hono-typed-fetcher@3.1.0
+
 ## 3.0.4
 
 ### Patch Changes
