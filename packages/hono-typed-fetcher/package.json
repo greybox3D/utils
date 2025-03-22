@@ -1,6 +1,6 @@
 {
 	"name": "@greybox/hono-typed-fetcher",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"private": false,
 	"repository": {
 		"url": "git@github.com:greybox3D/utils.git",
@@ -32,9 +32,7 @@
 		".": "./src/honoFetcher.ts",
 		"./*": "./src/*.ts"
 	},
-	"files": [
-		"src"
-	],
+	"files": ["src"],
 	"publishConfig": {
 		"access": "public"
 	}
