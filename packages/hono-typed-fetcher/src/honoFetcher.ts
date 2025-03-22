@@ -124,7 +124,7 @@ const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 			body?: unknown;
 		};
 
-		let body: unknown = undefined;
+		let body: BodyInit | undefined = undefined;
 		if (requestAsOptionalFormBody.form) {
 			const formData = new FormData();
 			for (const [key, value] of Object.entries(
@@ -134,7 +134,7 @@ const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 			}
 			body = formData;
 		} else if (requestAsOptionalFormBody.body) {
-			body = JSON.stringify(requestAsOptionalFormBody.body);
+			body = JSON.stringify(requestAsOptionalFormBody.body) as BodyInit;
 		}
 
 		const newHeaders = new Headers(init.headers);
@@ -147,7 +147,7 @@ const createMethodFetcher = <T extends Hono, M extends HttpMethod>(
 			return await fetcher(finalUrl, {
 				method: method.toUpperCase(),
 				headers: newHeaders,
-				...(body ? { body: body as BodyInit } : {}),
+				...(body ? { body } : {}),
 				...init,
 			});
 		} catch (error) {

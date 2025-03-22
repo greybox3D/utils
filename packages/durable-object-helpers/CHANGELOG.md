@@ -1,5 +1,12 @@
 # @greybox/durable-object-helpers
 
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @greybox/hono-typed-fetcher@3.0.3
+
 ## 3.0.2
 
 ### Patch Changes

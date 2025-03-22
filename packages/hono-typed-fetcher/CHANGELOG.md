@@ -1,5 +1,11 @@
 # @greybox/hono-typed-fetcher
 
+## 3.0.3
+
+### Patch Changes
+
+- Improve typing more
+
 ## 3.0.1
 
 ### Patch Changes
